@@ -47,8 +47,7 @@ exports.getGamesByGroup = function(request, response) {
                         });
                     }
                 } else {
-                    var group = docs[0];
-                    var amount = 0;
+                    var group = docs;
        				var gamesCollection = db.collection(config.gamesCollection);
        				gamesCollection.find({ '_id': { $in: group.games } })
             			.toArray(function (err, games) {
