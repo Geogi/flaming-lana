@@ -1,5 +1,11 @@
-
 var network = require('Network/Network');
+
+userInfo = {
+	id : "user_id",
+	other_field : ' ',
+	match_guesses : [] 
+};
+
 
 function ApplicationTabGroup(Window) {
 	//create module instance
