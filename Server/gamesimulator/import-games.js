@@ -85,7 +85,7 @@ import_game = function(i) {
 						                	
 
 						                } else {
-						                	alert("Error setting games in group"));
+						                	alert("Error setting games in group");
 		                        		}
 		                        	}
                             	});
@@ -155,6 +155,10 @@ insert_group = function(obj) {
 }
 
 exports.import_groups = function() {
+
+	server.mongoConnectAndAuthenticate(function (err, conn, db) {
+	        var collection = db.collection(config.groupsCollection);
+	        collection.remove();
 
 	// Group A
 	insert_group(
@@ -251,6 +255,8 @@ exports.import_groups = function() {
                         	games: []);
 
 	  	});
+
+	});
 
 	return 0;
 }

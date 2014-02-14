@@ -3,6 +3,7 @@ var express = require("express");
 var utils = require("./utils");
 var moment = require('moment');
 var config = require("./auth/dbconfig.js");
+var data_import = require("./gamesimulator/import-games.js");
 
 // Project-specific modules
 var groups = require("./urlroutes/groups");
@@ -61,6 +62,8 @@ function mongoConnectAndAuthenticate(callback) {
 exports.mongoConnectAndAuthenticate = mongoConnectAndAuthenticate;
 
 
+// INSERT INITIAL GAMES DATA
+data_import.import_groups();
 
 
 // define the users API url routes.
