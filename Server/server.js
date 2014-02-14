@@ -11,6 +11,7 @@ var groups = require("./urlroutes/groups");
 var teams = require("./urlroutes/teams");
 var games = require("./urlroutes/games");
 var bets = require("./urlroutes/bets");
+var users = require("./urlroutes/users");
 
 
 // use express and its bodyParser for POST requests.
@@ -89,6 +90,10 @@ app.get("/games/getgamesbygroup", games.getGamesByGroup);
 // BETS
 
 app.post("/bets/postbet", bets.postBet);
+
+// USERS
+
+app.post("/users/getuser", users.getUser);
 
 
 
