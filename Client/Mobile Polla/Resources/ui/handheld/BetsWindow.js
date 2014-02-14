@@ -48,4 +48,4 @@ tableview.addEventListener('click', function(e)
 	return self;
 };
 
-module.exports = BetsWindow;
+module.exports.BetsWindow = BetsWindow;

@@ -21,10 +21,10 @@ function ApplicationWindow(title) {
 		
 		network.getTeams({name: "BOBY!!"});
 
-		self.containingTab.open(Ti.UI.createWindow({
-			title: L('hallooooooo'),
-			backgroundColor: 'white'
-		}));
+		var BetWindow = require('/ui/handheld/BetsWindow');
+    	var myBetWindow = BetWindow.BetsWindow();
+    
+		self.containingTab.open(myBetWindow);
 		
 		
 		
