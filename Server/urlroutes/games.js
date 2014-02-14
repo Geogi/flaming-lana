@@ -137,7 +137,7 @@ exports.getGameById = function(request, response) {
 
     server.mongoConnectAndAuthenticate(function (err, conn, db) {
         var collection = db.collection(config.gamesCollection);
-        collection.find('_id': game_id)
+        collection.find({ '_id': game_id })
             .toArray(function (err, docs) {
                 if (err) {
                     response.send({
