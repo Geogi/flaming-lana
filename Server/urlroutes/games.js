@@ -40,12 +40,12 @@ exports.getGamesByGroup = function(request, response) {
                 } else if (!docs) {
                     // we visited all docs in the collection
                     // if docs is empty
-                    if (resultAmount == 0) {
+                    //if (resultAmount == 0) {
                         response.send({
                             "meta": utils.createErrorMeta(400, "X_001", "The group was not found. " + err),
                             "response": {}
                         });
-                    }
+                    //}
                 } else {
                     var group = docs;
        				var gamesCollection = db.collection(config.gamesCollection);
