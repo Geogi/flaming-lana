@@ -1,7 +1,7 @@
 //var network = require('Network');
 var network = require('Network/Network');
 
-function PlayersWindow(title) {
+function StandingWindow() {
 	var self = Ti.UI.createWindow({
 		title : 'Standings',
 		backgroundColor : 'white'
@@ -81,5 +81,9 @@ function PlayersWindow(title) {
 			e.section.updateItemAt(e.itemIndex, item);
 		}
 	});
-
+	
+	self.add(listView);
+	return self;
 };
+
+module.exports.StandingWindow = StandingWindow;
