@@ -10,4 +10,5 @@
 	<string name="sendingbetalert">Sending your bet to the server </string>
 	<string name="info">Info</string>
 	<string name="matches">Matches for </string> 
+	<string name="fonskes">To get Fonskes (CityLife API)</string>
 </resources>

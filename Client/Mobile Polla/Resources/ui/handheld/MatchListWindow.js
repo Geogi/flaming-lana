@@ -114,7 +114,7 @@ function inflateListView(items) {
 		data3.push(Titanium.UI.createPickerRow({
 			title : ' '
 		}));
-		for (var j = 1; j < 11; j++) {
+		for (var j = 0; j < 11; j++) {
 			data2.push(Titanium.UI.createPickerRow({
 				title : j.toString()
 			}));
