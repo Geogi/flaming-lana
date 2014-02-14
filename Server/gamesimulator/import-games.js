@@ -36,20 +36,19 @@ exports.import_rounds = function(request, response) {
 	return 0;
 }
 
-import_game = function(i) {
+import_game = function(i, index, callback) {
 	var fileJSON = require('./data/'+i+'.json');
-	console.log(fileJSON);
+	//console.log(fileJSON);
 
-	games = fileJSON["games"];
-	games.forEach(function(game) {
-
-								require('sleep').sleep(5);
-	    server.mongoConnectAndAuthenticate(function (err, conn, db) {
+	var games = fileJSON["games"];
+	var game = games[index];
+	console.log("Adding game: "+game.team1_key+" vs "+game.team2_key+" at "+fileJSON["round"].title+" file "+i);
+	server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.gamesCollection);
 	        collection.find({ 'team1_key': game.team1_key, 'play_at': game.play_at })
 	            .each(function (err, docs) {
 	                if (err) { 
-	                    console.log("Error IMPORT 5");
+	                    console.log("Error IMPORT 5: "+err);
 	                } else if (!docs) {
 	                	delete game.score1ot;
 	                	delete game.score2ot;
@@ -61,59 +60,73 @@ import_game = function(i) {
 	                	game.end_at = fileJSON["round"].end_at;
                         collection.insert(
                         	game
-                        , function (err, docs) {
+                        , function (err, ngames) {
                             if (err) {
-	                    			console.log("Error IMPORT 4");
-                            } else {
+	                    		console.log("Error IMPORT 4: "+err+" :: "+game.team1_key+" vs "+game.team2_key+" at "+game.start_at);
+                            } else if (ngames && ngames[0]) {
+                            	var game = ngames[0];
                             	var groupsCollection = db.collection(config.groupsCollection);
-                            	groupsCollection.find()
-                            		.toArray(function (err, docs) {
-						                console.log(docs);
-						                console.log(err);
+                            	groupsCollection.find({ teams: game.team1_key})
+                            		.toArray(function (err, groups) {
 		                        		if (err) { 
 	                    					console.log("Error IMPORT 3");
-						                } else if (groups) {
-						                	console.log(groups);
+						                } else if (groups && groups[0]) {
 						                	// Add new game to groups.games
-						                	groups[0].games.push(docs[0]._id);
+						                	groups[0].games.push(game._id);
 						                	groupsCollection.save(groups[0], function(err, result) {
 												if (err) { 
 	                    							console.log("Error IMPORT 2");
-						                    	}});
+						                    	}
+						                    	if (index + 1 < games.length) {
+						                    		import_game(i, index+1, callback);
+						                    	} else {
+						                    		callback();           
+						                    	}         
+						                    });
 						                } else {
-						                	console.log("Error setting games in group (could not find group for team '"+game.team1_key+"')");
+                            				console.log(game);
+						                	console.log("Error setting ngames in group (could not find group for team '"+game.team1_key+"')");
 		                        		}
 		                        });
+                            } else {
+                            	console.log("failed to add "+game);
                             }
                         });  
-	                } else {
-	                    console.log("Error IMPORT 1: "+game);
 	                }
 	            });
 	    });
-	});
 }
 
 
-exports.import_games = function(request, response) {
+import_games = function(callback) {
 	server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.gamesCollection);
 	        collection.remove(function (err, docs) {
 	        	if (err) {
 	        		console.log("Could not remove old data: " + err);
 	        	}
+				import_game(1,0,function() {
+				import_game(2,0,function() {
+				import_game(3,0,function() {
+				import_game(4,0,function() {
+				import_game(5,0,function() {
+				import_game(6,0,function() {
+				import_game(7,0,function() {
+				import_game(8,0,function() {
+				import_game(9,0,function() {
+				import_game(10,0,function() {
+				import_game(11,0,function() {
+				import_game(12,0,function() {
+				import_game(13,0,function() {
+				import_game(14,0,function() {
+				import_game(15,0, callback); })})})})})})})})})})})})})});
 	        });
 	    });
-
-	for (var i = 1; i < 21; i++) {
-		//import_game(i);
-	};
-	import_game(1);
 }
 
 
 
-insert_group = function(obj) {
+insert_group = function(obj, callback) {
     server.mongoConnectAndAuthenticate(function (err, conn, db) {
         var collection = db.collection(config.groupsCollection);
         collection.find({ 'name': obj.name })
@@ -130,8 +143,9 @@ insert_group = function(obj) {
                                 "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
                                 "response": {}
                             });
-                        } 
-                    });  
+                        }
+                        callback();
+                    });
                 } else {
                     // increase resultAmount so on next iteration the algorithm knows the id was found.
                     resultAmount++;
@@ -141,10 +155,11 @@ insert_group = function(obj) {
                     });         
                 }
             });
+
 	});
 }
 
-exports.import_groups = function() {
+import_groups = function(callback) {
 
 	server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.groupsCollection);
@@ -164,7 +179,7 @@ exports.import_groups = function() {
                         	end_at: "2014/06/23",
                         	games: []
 
-	    });
+	    }, function() {
 
 	// Group B
 	insert_group({
@@ -176,7 +191,7 @@ exports.import_groups = function() {
                         	end_at: "2014/06/23",
                         	games: []
 
-	  	});
+	  	}, function() {
 
 	// Group C
 	insert_group({
@@ -188,7 +203,7 @@ exports.import_groups = function() {
                         	end_at: "2014/06/24",
                         	games: []
 
-	  	});
+	  	}, function() {
 
 	// Group D
 	insert_group({
@@ -200,7 +215,7 @@ exports.import_groups = function() {
                         	end_at: "2014/06/24",
                         	games: []
 
-	  	});
+	  	}, function() {
 
 	// Group E
 	insert_group({
@@ -212,7 +227,7 @@ exports.import_groups = function() {
                         	end_at: "2014/06/25",
                         	games: []
 
-	  	});
+	  	}, function() {
 
 	// Group F
 	insert_group({
@@ -224,11 +239,11 @@ exports.import_groups = function() {
                         	end_at: "2014/06/25",
                         	games: []
 
-	  	});
+	  	}, function() {
 
 	// Group G
 	insert_group({
-                        	teams: ["ger", "gha", "gha", "usa"],
+                        	teams: ["ger", "por", "gha", "usa"],
                         	name: "Group G",
                         	firstToGroup: "1G-2H",
                         	secondToGroup: "1H-2G",
@@ -236,7 +251,7 @@ exports.import_groups = function() {
                         	end_at: "2014/06/26",
                         	games: []
 
-	  	});
+	  	}, function() {
 
 	// Group H
 	insert_group({
@@ -248,12 +263,23 @@ exports.import_groups = function() {
                         	end_at: "2014/06/26",
                         	games: []
 
-	  	});
+	  	}, callback)})})})})})})});
+
 
 	});
 
+
 	return 0;
 }
+
+
+exports.import_all = function(callback) {
+	import_groups(function() {
+		import_games(callback)
+	});
+};
+
+
 
 
 
