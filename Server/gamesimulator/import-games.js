@@ -53,8 +53,8 @@ import_game = function(db, i, index, callback) {
 	                	delete game.score2ot;
 	                	delete game.score1p;
 	                	delete game.score2p;
-	                	game.score1 = 0;
-	                	game.score2 = 0;
+	                	game.score1 = Math.floor((Math.random()*4));
+						game.score2 = Math.floor((Math.random()*4));
 	                	game.start_at = fileJSON["round"].start_at;
 	                	game.end_at = fileJSON["round"].end_at;
                         collection.insert(
@@ -96,6 +96,223 @@ import_game = function(db, i, index, callback) {
 	            });
 }
 
+import_game_round2 = function(db, callback) {
+	var collection = db.collection(config.gamesCollection);
+
+	var game = { 'team1_key': '1A',
+				'team1_title': 'First team of Group A',
+				'team1_code': '1A',
+				'team2_key': '2B',
+				'team2_title': 'Second team of Group B',
+				'team2_code': '2B',
+				'play_at': '2014/06/28',
+				'score1': Math.floor((Math.random()*4)),
+				'score2': Math.floor((Math.random()*4))
+	};
+	game.start_at = game.play_at;
+	game.end_at = game.play_at;
+	collection.insert(game, function (err, ngames) {
+		if (err) { console.log("Error inserting game: "+game); };
+		game = { 'team1_key': '1C',
+				'team1_title': 'First team of Group C',
+				'team1_code': '1C',
+				'team2_key': '2D',
+				'team2_title': 'Second team of Group D',
+				'team2_code': '2D',
+				'play_at': '2014/06/28',
+				'score1': Math.floor((Math.random()*4)),
+				'score2': Math.floor((Math.random()*4))
+		};
+		game.start_at = game.play_at;
+		game.end_at = game.play_at;
+		collection.insert(game, function (err, ngames) {
+			if (err) { console.log("Error inserting game: "+game); };
+			game = { 'team1_key': '1E',
+					'team1_title': 'First team of Group E',
+					'team1_code': '1E',
+					'team2_key': '2F',
+					'team2_title': 'Second team of Group F',
+					'team2_code': '2F',
+					'play_at': '2014/06/30',
+					'score1': Math.floor((Math.random()*4)),
+					'score2': Math.floor((Math.random()*4))
+				};
+			game.start_at = game.play_at;
+			game.end_at = game.play_at;
+			collection.insert(game, function (err, ngames) {
+				if (err) { console.log("Error inserting game: "+game); };
+				game = { 'team1_key': '1G',
+						'team1_title': 'First team of Group G',
+						'team1_code': '1G',
+						'team2_key': '2H',
+						'team2_title': 'Second team of Group H',
+						'team2_code': '2H',
+						'play_at': '2014/06/30',
+						'score1': Math.floor((Math.random()*4)),
+						'score2': Math.floor((Math.random()*4))
+					};
+				game.start_at = game.play_at;
+				game.end_at = game.play_at;
+				collection.insert(game, function (err, ngames) {
+					if (err) { console.log("Error inserting game: "+game); };
+					game = { 'team1_key': '1B',
+							'team1_title': 'First team of Group B',
+							'team1_code': '1B',
+							'team2_key': '2A',
+							'team2_title': 'Second team of Group A',
+							'team2_code': '2A',
+							'play_at': '2014/06/29',
+							'score1': Math.floor((Math.random()*4)),
+							'score2': Math.floor((Math.random()*4))
+						};
+					game.start_at = game.play_at;
+					game.end_at = game.play_at;
+					collection.insert(game, function (err, ngames) {
+						if (err) { console.log("Error inserting game: "+game); };
+						game = { 'team1_key': '1D',
+								'team1_title': 'First team of Group D',
+								'team1_code': '1D',
+								'team2_key': '2C',
+								'team2_title': 'Second team of Group C',
+								'team2_code': '2C',
+								'play_at': '2014/06/29',
+								'score1': Math.floor((Math.random()*4)),
+								'score2': Math.floor((Math.random()*4))
+							};
+						game.start_at = game.play_at;
+						game.end_at = game.play_at;
+						collection.insert(game, function (err, ngames) {
+							if (err) { console.log("Error inserting game: "+game); };
+							game = { 'team1_key': '1F',
+									'team1_title': 'First team of Group F',
+									'team1_code': '1F',
+									'team2_key': '2E',
+									'team2_title': 'Second team of Group E',
+									'team2_code': '2E',
+									'play_at': '2014/07/01',
+									'score1': Math.floor((Math.random()*4)),
+									'score2': Math.floor((Math.random()*4))
+								};
+							game.start_at = game.play_at;
+							game.end_at = game.play_at;
+							collection.insert(game, function (err, ngames) {
+								if (err) { console.log("Error inserting game: "+game); };
+								game = { 'team1_key': '1H',
+										'team1_title': 'First team of Group H',
+										'team1_code': '1H',
+										'team2_key': '2G',
+										'team2_title': 'Second team of Group G',
+										'team2_code': '2G',
+										'play_at': '2014/07/01',
+										'score1': Math.floor((Math.random()*4)),
+										'score2': Math.floor((Math.random()*4))
+									};
+								game.start_at = game.play_at;
+								game.end_at = game.play_at;
+								collection.insert(game, function (err, ngames) {
+									if (err) { console.log("Error inserting game: "+game); };
+									game = { 'team1_key': 'W49',
+											'team1_title': 'Winner of 1A and 2B',
+											'team1_code': 'W49',
+											'team2_key': 'W50',
+											'team2_title': 'Winner of 1C and 2D',
+											'team2_code': 'W50',
+											'play_at': '2014/07/04',
+											'score1': Math.floor((Math.random()*4)),
+											'score2': Math.floor((Math.random()*4))
+										};
+									game.start_at = game.play_at;
+									game.end_at = game.play_at;
+									collection.insert(game, function (err, ngames) {
+										if (err) { console.log("Error inserting game: "+game); };
+										game = { 'team1_key': 'W53',
+												'team1_title': 'Winner of 1E and 2F',
+												'team1_code': 'W53',
+												'team2_key': 'W54',
+												'team2_title': 'Winner of 1G and 2H',
+												'team2_code': 'W54',
+												'play_at': '2014/07/04',
+												'score1': Math.floor((Math.random()*4)),
+												'score2': Math.floor((Math.random()*4))
+											};
+										game.start_at = game.play_at;
+										game.end_at = game.play_at;
+										collection.insert(game, function (err, ngames) {
+											if (err) { console.log("Error inserting game: "+game); };
+											game = { 'team1_key': 'W51',
+													'team1_title': 'Winner of 1B and 2A',
+													'team1_code': 'W51',
+													'team2_key': 'W52',
+													'team2_title': 'Winner of 1D and 2C',
+													'team2_code': 'W52',
+													'play_at': '2014/07/04',
+													'score1': Math.floor((Math.random()*4)),
+													'score2': Math.floor((Math.random()*4))
+												};
+											game.start_at = game.play_at;
+											game.end_at = game.play_at;
+											collection.insert(game, function (err, ngames) {
+												if (err) { console.log("Error inserting game: "+game); };
+												game = { 'team1_key': 'W55',
+														'team1_title': 'Winner of 1F and 2E',
+														'team1_code': 'W55',
+														'team2_key': 'W56',
+														'team2_title': 'Winner of 1H and 2G',
+														'team2_code': 'W56',
+														'play_at': '2014/07/05',
+														'score1': Math.floor((Math.random()*4)),
+														'score2': Math.floor((Math.random()*4))
+													};
+												game.start_at = game.play_at;
+												game.end_at = game.play_at;
+												collection.insert(game, function (err, ngames) {
+													if (err) { console.log("Error inserting game: "+game); };
+													game = { 'team1_key': 'W57',
+															'team1_title': 'Winner of W49 and W50',
+															'team1_code': 'W57',
+															'team2_key': 'W58',
+															'team2_title': 'Winner of W53 and W54',
+															'team2_code': 'W58',
+															'play_at': '2014/07/08',
+															'score1': Math.floor((Math.random()*4)),
+															'score2': Math.floor((Math.random()*4))
+														};
+													game.start_at = game.play_at;
+													game.end_at = game.play_at;
+													collection.insert(game, function (err, ngames) {
+														if (err) { console.log("Error inserting game: "+game); };
+														game = { 'team1_key': 'W61',
+																'team1_title': 'Winner of W57 and W58',
+																'team1_code': 'W61',
+																'team2_key': 'W62',
+																'team2_title': 'Winner of W59 and W60',
+																'team2_code': 'W62',
+																'play_at': '2014/07/13',
+																'score1': Math.floor((Math.random()*4)),
+																'score2': Math.floor((Math.random()*4))
+															};
+														game.start_at = game.play_at;
+														game.end_at = game.play_at;
+														collection.insert(game, function (err, ngames) {
+															if (err) { console.log("Error inserting game: "+game); };
+															game = { 'team1_key': 'L61',
+																	'team1_title': 'Winner of W57 and W58',
+																	'team1_code': 'L61',
+																	'team2_key': 'L62',
+																	'team2_title': 'Winner of W59 and W60',
+																	'team2_code': 'L62',
+																	'play_at': '2014/07/12',
+																	'score1': Math.floor((Math.random()*4)),
+																	'score2': Math.floor((Math.random()*4))
+																};
+															game.start_at = game.play_at;
+															game.end_at = game.play_at;
+															collection.insert(game, function (err, ngames) {
+																if (err) { console.log("Error inserting game: "+game); };
+															})})})})})})})})})})})})})})});
+
+}
+
 
 import_games = function(callback) {
 	server.mongoConnectAndAuthenticate(function (err, conn, db) {
@@ -118,9 +335,11 @@ import_games = function(callback) {
 				import_game(db,12,0,function() {
 				import_game(db,13,0,function() {
 				import_game(db,14,0,function() {
-				import_game(db,15,0, callback); })})})})})})})})})})})})})});
+				import_game(db,15,0,function() {
+				import_game_round2(db, callback); })})})})})})})})})})})})})});
 	        });
 	    });
+	  });
 }
 
 
@@ -259,7 +478,48 @@ import_groups = function(callback) {
                         	end_at: "2014/06/26",
                         	games: []
 
-	  	}, callback)})})})})})})});
+	  	}, function() {
+
+	// Round of 16
+	insert_group(db, {
+                        	teams: ["1A", "2A", "1B", "2B", "1C", "2C", "1D", "2D", "1E", "2E", "1F", "2F", "1G", "1H", "2H"],
+                        	name: "Round of 16",
+                        	firstToGroup: "Quarter-finals",
+                        	start_at: "2014/06/28",
+                        	end_at: "2014/06/30",
+                        	games: []
+
+	  	}, function() {
+
+	// Quarter-finals
+	insert_group(db, {
+                        	teams: ["W49", "W50", "W51", "W52", "W53", "W54", "W55", "W56"],
+                        	name: "Quarter-finals",
+                        	start_at: "2014/07/04",
+                        	end_at: "2014/07/04",
+                        	games: []
+
+	  	}, function() {
+
+	// Semi-finals
+	insert_group(db, {
+                        	teams: ["W57", "W58", "W59", "W60"],
+                        	name: "Semi-finals",
+                        	start_at: "2014/07/08",
+                        	end_at: "2014/07/09",
+                        	games: []
+
+	  	}, function() {
+
+	// Final
+	insert_group(db, {
+                        	teams: ["W61", "W62", "L61", "L62"],
+                        	name: "Final",
+                        	start_at: "2014/07/13",
+                        	end_at: "2014/07/13",
+                        	games: []
+
+	  	}, callback)})})})})})})})})})})});
 
 
 	});
