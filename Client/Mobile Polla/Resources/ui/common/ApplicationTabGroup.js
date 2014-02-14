@@ -20,7 +20,7 @@ function ApplicationTabGroup(Window) {
 
 	var tab2 = Ti.UI.createTab({
 		title: L('bet'),
-		icon: '/images/bet.jpg',
+		icon: '/images/bet.png',
 		window: myBetWindow
 	});
 	myBetWindow.containingTab = tab2;
@@ -28,7 +28,7 @@ function ApplicationTabGroup(Window) {
 	var win3 = new Window(L('money'));
     var tab3 = Ti.UI.createTab({
 		title: L('money'),
-		icon: '/images/sports_betting_money.jpg',
+		icon: '/images/money.png',
 		window: win3
 	});
 	win3.containingTab = tab3;
