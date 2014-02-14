@@ -42,7 +42,7 @@ if (Ti.version < 1.8) {
   }
 
   var isTablet = checkTablet();
-
+  
   var Window;
   if (isTablet) {
     Window = require('ui/tablet/ApplicationWindow');
