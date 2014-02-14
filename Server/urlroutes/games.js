@@ -47,8 +47,6 @@ exports.getGamesByGroup = function(request, response) {
                         });
                     }
                 } else {
-                    // increase resultAmount so on next iteration the algorithm knows the id was found.
-                    resultAmount++;
                     var group = docs[0];
                     var amount = 0;
        				var gamesCollection = db.collection(config.gamesCollection);
@@ -60,17 +58,11 @@ exports.getGamesByGroup = function(request, response) {
                         			"response": {}
                     			});
                 			} else if (!games) {
-                    			// we visited all docs in the collection
-                    			// if docs is empty
-                    			if (amount == 0) {
                         			response.send({
                             			"meta": utils.createErrorMeta(400, "X_001", "No games found. " + err),
                             			"response": {}
                         			});
-                    			}
                 			} else {
-                    			// increase resultAmount so on next iteration the algorithm knows the id was found.
-                    			amount++;
                     			response.send({
                         			"meta": utils.createOKMeta(),
                         			"response": games
