@@ -7,7 +7,8 @@ var getGroupsUrl     = base_url.concat("/groups/getgroups");
 var postGroupUrl     = base_url.concat("/groups/getgroup");
 var getTeamsUrl      = base_url.concat('/teams/getteams');
 var getGamesUrl      = base_url.concat('/games/getgames');
-var getGamesByGroups = base_url.concat("/games/getgamesbygroup");
+var getGameUrl       = base_url.concat('/games/getgamebyid');
+var getGamesByGroupURL  = base_url.concat("/games/getgamesbygroup");
 
 
 /*
@@ -21,7 +22,7 @@ function executeRequest(jobject, callback, url, method) {
 			if (replyobject.meta.code == 200) {
 				callback(replyobject.response);
 			} else {
-				alert('Some error occured' + replyobject.meta.message);
+				alert('Some error occured meta:: ' + replyobject.meta.message);
 			}
 		},
 		// function called when an error occurs, including a timeout
@@ -30,12 +31,13 @@ function executeRequest(jobject, callback, url, method) {
 		},
 		timeout : 50000 // in milliseconds
 	});
+	
 	client.open(method, url);
 	// Prepare the connection.
 	if (method == "GET") {
 		client.send();
 	} else {
-		client.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		// Send the request.
 		client.send(jobject);
 	}
@@ -52,10 +54,12 @@ module.exports.getTeams = function(callback) {
 	executeRequest({}, callback, getTeamsUrl, "GET");
 };
 
-module.exports.getGamesByGroup = function getGamesByGroup(jobject, callback) {
-	executeRequest(jobject, callback, getGroupsUrl, "POST");
+module.exports.getGamesByGroup = function getGamesByGroup(id, callback) {
+	executeRequest(
+				{group_name : id}, 
+				callback, 
+				getGamesByGroupURL,"POST");
 };
 
+//module.exports.getGamesByGroup("Group A",function(e){Ti.API.info(e);});
 
-
-//{ name : "52fe38f70efc02e72900000a"}
