@@ -1,22 +1,14 @@
 /*
  * Configuration of the URLS
  */
-var base_url = "http://10.221.54.225:8888";
-
-var getGroupsUrl = base_url.concat("/groups/getgroups");
-var postGroupUrl = base_url.concat("/groups/getgroup");
-var getTeamsUrl = base_url.concat('/teams/getteams');
-
-var getGamesUrl = base_url.concat('/games/getgames');
+var base_url_andoni  = "http://10.221.54.225:8888";
+var base_url         = "http://10.221.54.225:8888";
+var getGroupsUrl     = base_url.concat("/groups/getgroups");
+var postGroupUrl     = base_url.concat("/groups/getgroup");
+var getTeamsUrl      = base_url.concat('/teams/getteams');
+var getGamesUrl      = base_url.concat('/games/getgames');
 var getGamesByGroups = base_url.concat("/games/getgamesbygroup");
 
-/*app.post("/groups/getgroup", groups.getGroupByName);
- app.get("/groups/getgroups", groups.getGroups);
- // TEAMS
- app.get("/teams/getteams", teams.getTeams);
- // GAMES
- app.get("/games/getgames", games.getGames);
- app.get("/games/getgamesbygroup", games.getGamesByGroup);*/
 
 /*
  * Executes the request to the server.
@@ -64,3 +56,6 @@ module.exports.getGamesByGroup = function getGamesByGroup(jobject, callback) {
 	executeRequest(jobject, callback, getGroupsUrl, "POST");
 };
 
+
+
+//{ name : "52fe38f70efc02e72900000a"}

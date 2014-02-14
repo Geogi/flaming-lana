@@ -1,13 +1,7 @@
 //var network = require('Network');
+
 var network = require('Network/Network');
-
-function StandingWindow() {
-	var self = Ti.UI.createWindow({
-		title : 'Standings',
-		backgroundColor : 'white'
-	});
-
-	var plainTemplate = {
+var plainTemplate = {
 		childTemplates : [
 		{
 			type : 'Ti.UI.ImageView', // Use an image view
@@ -34,53 +28,36 @@ function StandingWindow() {
 				right : '10dp',
 			},
 			events : {
-				click : report
 			} // Binds a callback to the button's click event
 		}]
 	};
 
-	function report(e) {
-		Ti.API.info(e.type);
-	}
-
-	// Function to create a view with a label
-	var createCustomView = function(title) {
-		var view = Ti.UI.createView({
-			backgroundColor : '#222',
-			height : 40
-		});
-		var text = Ti.UI.createLabel({
-			text : title,
-			left : 20,
-			color : '#fff'
-		});
-		view.add(text);
-		return view;
-	}; 
-
-
-
-	var listView = Ti.UI.createListView({
-		headerView: createCustomView('User Scores'),
-		// Maps the plainTemplate object to the 'plain' style name
-		templates : {
-			'plain' : plainTemplate
-		},
-		// Use the plain template, that is, the plainTemplate object defined earlier
-		// for all data list items in this list view
-		defaultItemTemplate : 'plain'
+// Function to create a view with a label
+var createCustomView = function(title) {
+	var view = Ti.UI.createView({
+		backgroundColor : '#222',
+		height : 40
 	});
+	var text = Ti.UI.createLabel({
+		text : title,
+		left : 20,
+		color : '#fff'
+	});
+	view.add(text);
+	return view;
+};
 
+function createSection(n) {
 	var data = [];
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < n; i++) {
 		data.push({
 			// Maps to the rowtitle component in the template
 			// Sets the text property of the Label component
 			username : {
-				text : 'User ' + (i + 1)
+				text : 'Nicolas ' 
 			},
 			score : {
-				text : '12'
+				text : '42'
 			},
 			// Sets the regular list data properties
 			properties : {
@@ -89,26 +66,116 @@ function StandingWindow() {
 			}
 		});
 	}
+	
+	data.push({
+			// Maps to the rowtitle component in the template
+			// Sets the text property of the Label component
+			username : {
+				text : 'Elisa ' 
+			},
+			score : {
+				text : '23'
+			},
+			// Sets the regular list data properties
+			properties : {
+				itemId : 'row' + (i + 1),
+				accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE
+			}
+		});
+
+data.push({
+			// Maps to the rowtitle component in the template
+			// Sets the text property of the Label component
+			username : {
+				text : 'Andoni ' 
+			},
+			score : {
+				text : '20'
+			},
+			// Sets the regular list data properties
+			properties : {
+				itemId : 'row' + (i + 1),
+				accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE
+			}
+		});
+		
+		
+		data.push({
+			// Maps to the rowtitle component in the template
+			// Sets the text property of the Label component
+			username : {
+				text : 'Lode ' 
+			},
+			score : {
+				text : '18'
+			},
+			// Sets the regular list data properties
+			properties : {
+				itemId : 'row' + (i + 1),
+				accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE
+			}
+		});
+
+
+	data.push({
+			// Maps to the rowtitle component in the template
+			// Sets the text property of the Label component
+			username : {
+				text : 'Christophe ' 
+			},
+			score : {
+				text : '7'
+			},
+			// Sets the regular list data properties
+			properties : {
+				itemId : 'row' + (i + 1),
+				accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE
+			}
+		});
+
 
 	var section = Ti.UI.createListSection({
 		items : data
 	});
-	listView.sections = [section];
-	listView.addEventListener('itemclick', function(e) {
-		// Only respond to clicks on the label (rowtitle) or image (pic)
-		if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
-			var item = e.section.getItemAt(e.itemIndex);
-			if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
-				item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
-			} else {
-				item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
-			}
-			e.section.updateItemAt(e.itemIndex, item);
-		}
+	return [section];
+};
+
+
+function StandingWindow() {
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:'red'
 	});
 	
-	self.add(listView);
-	return self;
+	var listView = Ti.UI.createListView({
+		headerView: createCustomView('User Scores'),
+		templates : {
+			'plain' : plainTemplate
+		},
+		defaultItemTemplate : 'plain',
+		refreshControl:control
+	});
+
+	control.addEventListener('refreshstart', function(e) {
+		Ti.API.info('refreshstart');
+		setTimeout(function() {
+			network.getGroups(function(response) {
+				listView.sections = createSection(100);
+				control.endRefreshing();
+			}); 
+		}, 2000);
+	});
+
+	var window = Ti.UI.createWindow({
+		title : 'Standings',
+		backgroundColor : 'white',
+		updateWindow: function(newdata){
+           	listView.sections = createSection(1);
+        }		
+	});
+	listView.sections = createSection(1);
+	window.add(listView);
+		
+	return window;
 };
 
 module.exports.StandingWindow = StandingWindow;

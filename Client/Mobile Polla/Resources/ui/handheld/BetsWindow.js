@@ -1,5 +1,6 @@
 var network = require('Network/Network');
 
+var groups = new Array();
 // items of the form [ [groupName, games], ...]
 function BetsWindow(items) {
 
@@ -19,6 +20,7 @@ function BetsWindow(items) {
 			 var betSize = group.games.length;
 			 groupData.push([group.name, group.games]);
 		 };
+		 groups = groupData;
 		 self.updateWindow(groupData);
 		 control.endRefreshing();		 
 	 });
@@ -56,21 +58,20 @@ control.addEventListener('refreshstart',function(e){
 tableview.addEventListener('click', function(e) {
 	// event data
 	var index = e.index;
+	var rowName = groups[index][0];
 	//var section = e.section;
-	var row = e.row;
-	var rowName = e.rowTitle;
+	// var row = e.row;
+	// var rowName = e.rowData;
 	// if (section.rowdata.indexOf('clicked') == -1) {
 		// section.rowdata = section.rowdata + ' (clicked)';
 	// }
-	 Titanium.UI.createAlertDialog({
-		title : 'Table View',
-		message : 'row ' + row + ' index ' + index 
-	}).show();
+	
+	
 		var c = 0;
 		var stop = false;
 		var games = null;
-		while ( c < items.length && !stop) {
-		  var group = items[c];
+		while ( c < groups.length && !stop) {
+		  var group = groups[c];
 		  var name = group[0];
 		  if (name == rowName) {
 		  	stop = true;
