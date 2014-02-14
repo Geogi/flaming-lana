@@ -37,22 +37,19 @@ exports.import_rounds = function(request, response) {
 }
 
 import_game = function(i) {
-	var fileJSON = require('./gamesimulator/data/'+i);
+	var fileJSON = require('./data/'+i+'.json');
 	console.log(fileJSON);
-
 
 	games = fileJSON["games"];
 	games.forEach(function(game) {
 
+								require('sleep').sleep(5);
 	    server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.gamesCollection);
 	        collection.find({ 'team1_key': game.team1_key, 'play_at': game.play_at })
 	            .each(function (err, docs) {
 	                if (err) { 
-	                    response.send({
-	                        "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
-	                        "response": {}
-	                    });
+	                    console.log("Error IMPORT 5");
 	                } else if (!docs) {
 	                	delete game.score1ot;
 	                	delete game.score2ot;
@@ -66,39 +63,31 @@ import_game = function(i) {
                         	game
                         , function (err, docs) {
                             if (err) {
-                                response.send({
-                                    "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
-                                    "response": {}
-                                });
+	                    			console.log("Error IMPORT 4");
                             } else {
-
                             	var groupsCollection = db.collection(config.groupsCollection);
-                            	groupsCollection.find({ teams: game.team1_key })
-                            		.each(function (err, docs2) {
+                            	groupsCollection.find()
+                            		.toArray(function (err, docs) {
+						                console.log(docs);
+						                console.log(err);
 		                        		if (err) { 
-						                    response.send({
-						                        "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
-						                        "response": {}
-						                    });
-						                } else if (!docs2) {
+	                    					console.log("Error IMPORT 3");
+						                } else if (groups) {
+						                	console.log(groups);
 						                	// Add new game to groups.games
-						                	docs2[0].games.push(docs[0]._id);
-						                	groupsCollection.save(docs2[0]);
+						                	groups[0].games.push(docs[0]._id);
+						                	groupsCollection.save(groups[0], function(err, result) {
+												if (err) { 
+	                    							console.log("Error IMPORT 2");
+						                    	}});
 						                } else {
-						                	alert("Error setting games in group");
+						                	console.log("Error setting games in group (could not find group for team '"+game.team1_key+"')");
 		                        		}
 		                        });
-
-                                queryById(docs[0]._id, response);
                             }
                         });  
 	                } else {
-	                    // increase resultAmount so on next iteration the algorithm knows the id was found.
-	                    resultAmount++;
-	                    response.send({
-	                           "meta": utils.createErrorMeta(400, "X_001", "This group already exists. " + err),
-	                           "response": {}
-	                    });         
+	                    console.log("Error IMPORT 1: "+game);
 	                }
 	            });
 	    });
@@ -107,6 +96,15 @@ import_game = function(i) {
 
 
 exports.import_games = function(request, response) {
+	server.mongoConnectAndAuthenticate(function (err, conn, db) {
+	        var collection = db.collection(config.gamesCollection);
+	        collection.remove(function (err, docs) {
+	        	if (err) {
+	        		console.log("Could not remove old data: " + err);
+	        	}
+	        });
+	    });
+
 	for (var i = 1; i < 21; i++) {
 		//import_game(i);
 	};
@@ -126,17 +124,13 @@ insert_group = function(obj) {
                         "response": {}
                     });
                 } else if (!docs) {
-                    collection.insert(
-                    	obj
-                    , function (err, docs) {
+                    collection.insert(obj, function (err, docs) {
                         if (err) {
                             response.send({
                                 "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
                                 "response": {}
                             });
-                        } else {
-                            queryById(docs[0]._id, response);
-                        }
+                        } 
                     });  
                 } else {
                     // increase resultAmount so on next iteration the algorithm knows the id was found.
@@ -154,7 +148,11 @@ exports.import_groups = function() {
 
 	server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.groupsCollection);
-	        collection.remove();
+	        collection.remove(function (err, docs) {
+	        	if (err) {
+	        		console.log("Could not remove old data: " + err);
+	        	}
+	        });
 
 	// Group A
 	insert_group({
