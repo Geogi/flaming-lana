@@ -5,7 +5,10 @@
  *      name:     		Name of the group,
         teams:    		Teams in the group,
         firstToGroup:   The winner goes to this group,
-        secondToGroup:  The second goes to this group 
+        secondToGroup:  The second goes to this group,
+        start_at:       Start of the group/round,
+        end_at:         End of the group/round,
+        games:          the games played by this group 
  *  }
  */
 

@@ -3,7 +3,6 @@
 // Define collection names here...
 var teamsCollection = "mobilepolla_teams";
 var groupsCollection = "mobilepolla_groups";
-var roundsCollection = "mobilepolla_rounds";
 var gamesCollection = "mobilepolla_games";
 
 
@@ -16,5 +15,4 @@ var secret = "xxxxxxxx";
 exports.dbname = dbname;
 exports.teamsCollection = teamsCollection;
 exports.groupsCollection = groupsCollection;
-exports.roundsCollection = roundsCollection;
 exports.gamesCollection = gamesCollection;

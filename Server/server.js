@@ -7,7 +7,6 @@ var config = require("./auth/dbconfig.js");
 // Project-specific modules
 var groups = require("./urlroutes/groups");
 var teams = require("./urlroutes/teams");
-var rounds = require("./urlroutes/rounds");
 var games = require("./urlroutes/games");
 
 
@@ -75,7 +74,6 @@ app.get("/groups/getgroups", groups.getGroups);
 
 // TEAMS
 
-// ROUNDS
 
 // GAMES
 
