@@ -6,6 +6,9 @@ var config = require("./auth/dbconfig.js");
 
 // Project-specific modules
 var groups = require("./urlroutes/groups");
+var teams = require("./urlroutes/teams");
+var rounds = require("./urlroutes/rounds");
+var games = require("./urlroutes/games");
 
 
 // use express and its bodyParser for POST requests.
@@ -42,13 +45,17 @@ function mongoConnectAndAuthenticate(callback) {
     MongoClient.connect(mongourl, function(err, db) {
         // ADD YOUR COLLECTIONS AND INDEXES ON THEM HERE TO MAKE SURE THEY'RE ALWAYS THERE
         (db.collection(config.groupsCollection)).ensureIndex( { name: 1 }, function(err, idxName) {
-            //(db.collection(config.collection2)).ensureIndex( { field1: 1, field2: 1 }, function(err, idxName) {
+            (db.collection(config.teamsCollection)).ensureIndex( { shortName: 1 }, function(err, idxName) {
+                (db.collection(config.roundsCollection)).ensureIndex( { pos: 1 }, function(err, idxName) {
+                    (db.collection(config.gamesCollection)).ensureIndex( { team1_key: 1, team2_key: 1 }, function(err, idxName) {
                 if (err) {
                     console.log(err);
                 }
                 callback(err, null, db);
             });
-        //});
+            });
+            });
+        });
     });
 }
 
@@ -61,7 +68,16 @@ exports.mongoConnectAndAuthenticate = mongoConnectAndAuthenticate;
 //app.post("/users/login", users.login);
 //app.get("/users/penis", users.getPenis);
 
+// GROUPS
+
 app.post("/groups/getgroup", groups.getGroupByName);
+app.get("/groups/getgroups", groups.getGroups);
+
+// TEAMS
+
+// ROUNDS
+
+// GAMES
 
 
 
