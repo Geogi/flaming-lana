@@ -74,9 +74,11 @@ app.get("/groups/getgroups", groups.getGroups);
 
 // TEAMS
 
+app.get("/teams/getteams", teams.getTeams);
 
 // GAMES
 
+app.get("/games/getgames", games.getGames);
 app.get("/games/getgamesbygroup", games.getGamesByGroup);
 
 

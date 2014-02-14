@@ -61,7 +61,6 @@ exports.getGroupByName = function(request, response) {
 
 // Get all groups
 exports.getGroups = function(request, response) {
-    var name = request.body.name;
     // declare external files
     var utils = require("../utils");
     var mongojs = require('mongojs');
