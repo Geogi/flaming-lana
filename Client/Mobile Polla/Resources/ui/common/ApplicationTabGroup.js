@@ -31,21 +31,21 @@ function ApplicationTabGroup(Window) {
     var myStandingWindow = standingWindow.StandingWindow();
 
 	var tab1 = Ti.UI.createTab({
-		title: L('Standings'),
+		title: L('standings'),
 		icon: '/images/list.png',
 		window: myStandingWindow
 	});
 	myStandingWindow.containingTab = tab1;
 
 	var tab2 = Ti.UI.createTab({
-		title: L('Bets'),
+		title: L('bet'),
 		icon: '/images/bet.jpg',
 		window: myBetWindow
 	});
 	myBetWindow.containingTab = tab2;
 
     var tab3 = Ti.UI.createTab({
-		title: L('Money'),
+		title: L('money'),
 		icon: '/images/sports_betting_money.jpg',
 		window: win3
 	});

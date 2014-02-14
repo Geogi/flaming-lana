@@ -94,7 +94,10 @@ var buttonBet = Ti.UI.createButton({
 
 buttonBet.addEventListener('click', function() {
 
-		
+		Titanium.UI.createAlertDialog({
+		title : L('sendingbetalert'),
+		message : 'success? ' 
+	}).show();
 				
 });	
 // add table view to the window
