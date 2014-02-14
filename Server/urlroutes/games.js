@@ -120,3 +120,43 @@ exports.getGames = function(request, response) {
             });
     });
 }
+
+
+// Get all game by id
+exports.getGameById = function(request, response) {
+    // declare external files
+    var utils = require("../utils");
+    var mongojs = require('mongojs');
+    var config = require('../auth/dbconfig');
+    var querystring = require('querystring');
+    var https = require('https');
+    var requestlib = require('request');
+    var server = require('../server');
+
+    var game_id = request.body.game_id;
+
+    server.mongoConnectAndAuthenticate(function (err, conn, db) {
+        var collection = db.collection(config.gamesCollection);
+        collection.find('_id': game_id)
+            .toArray(function (err, docs) {
+                if (err) {
+                    response.send({
+                        "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
+                        "response": {}
+                    });
+                } else if (!docs) {
+                    // we visited all docs in the collection
+                    // if docs is empty
+                        response.send({
+                            "meta": utils.createErrorMeta(400, "X_001", "The group was not found. " + err),
+                            "response": {}
+                        });
+                } else {
+                    response.send({
+                        "meta": utils.createOKMeta(),
+                        "response": docs[0]
+                    });             
+                }
+            });
+    });
+}
