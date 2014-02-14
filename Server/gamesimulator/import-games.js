@@ -36,15 +36,14 @@ exports.import_rounds = function(request, response) {
 	return 0;
 }
 
-import_game = function(i, index, callback) {
+import_game = function(db, i, index, callback) {
 	var fileJSON = require('./data/'+i+'.json');
 	//console.log(fileJSON);
 
 	var games = fileJSON["games"];
 	var game = games[index];
 	console.log("Adding game: "+game.team1_key+" vs "+game.team2_key+" at "+fileJSON["round"].title+" file "+i);
-	server.mongoConnectAndAuthenticate(function (err, conn, db) {
-	        var collection = db.collection(config.gamesCollection);
+	 var collection = db.collection(config.gamesCollection);
 	        collection.find({ 'team1_key': game.team1_key, 'play_at': game.play_at })
 	            .each(function (err, docs) {
 	                if (err) { 
@@ -78,23 +77,23 @@ import_game = function(i, index, callback) {
 	                    							console.log("Error IMPORT 2");
 						                    	}
 						                    	if (index + 1 < games.length) {
-						                    		import_game(i, index+1, callback);
+						                    		import_game(db, i, index+1, callback);
 						                    	} else {
-						                    		callback();           
+						                    		if (callback) {
+							                    		callback();   
+						                    		}       
 						                    	}         
 						                    });
 						                } else {
-                            				console.log(game);
 						                	console.log("Error setting ngames in group (could not find group for team '"+game.team1_key+"')");
 		                        		}
 		                        });
                             } else {
-                            	console.log("failed to add "+game);
+                            	console.log("failed to add "+ngames);
                             }
                         });  
 	                }
 	            });
-	    });
 }
 
 
@@ -105,30 +104,29 @@ import_games = function(callback) {
 	        	if (err) {
 	        		console.log("Could not remove old data: " + err);
 	        	}
-				import_game(1,0,function() {
-				import_game(2,0,function() {
-				import_game(3,0,function() {
-				import_game(4,0,function() {
-				import_game(5,0,function() {
-				import_game(6,0,function() {
-				import_game(7,0,function() {
-				import_game(8,0,function() {
-				import_game(9,0,function() {
-				import_game(10,0,function() {
-				import_game(11,0,function() {
-				import_game(12,0,function() {
-				import_game(13,0,function() {
-				import_game(14,0,function() {
-				import_game(15,0, callback); })})})})})})})})})})})})})});
+				import_game(db,1,0,function() {
+				import_game(db,2,0,function() {
+				import_game(db,3,0,function() {
+				import_game(db,4,0,function() {
+				import_game(db,5,0,function() {
+				import_game(db,6,0,function() {
+				import_game(db,7,0,function() {
+				import_game(db,8,0,function() {
+				import_game(db,9,0,function() {
+				import_game(db,10,0,function() {
+				import_game(db,11,0,function() {
+				import_game(db,12,0,function() {
+				import_game(db,13,0,function() {
+				import_game(db,14,0,function() {
+				import_game(db,15,0, callback); })})})})})})})})})})})})})});
 	        });
 	    });
 }
 
 
 
-insert_group = function(obj, callback) {
-    server.mongoConnectAndAuthenticate(function (err, conn, db) {
-        var collection = db.collection(config.groupsCollection);
+insert_group = function(db, obj, callback) {
+     var collection = db.collection(config.groupsCollection);
         collection.find({ 'name': obj.name })
             .each(function (err, docs) {
                 if (err) { 
@@ -155,8 +153,6 @@ insert_group = function(obj, callback) {
                     });         
                 }
             });
-
-	});
 }
 
 import_groups = function(callback) {
@@ -170,7 +166,7 @@ import_groups = function(callback) {
 	        });
 
 	// Group A
-	insert_group({
+	insert_group(db, {
                         	teams: ["bra", "cro", "mex", "cmr"],
                         	name: "Group A",
                         	firstToGroup: "1A-2B",
@@ -182,7 +178,7 @@ import_groups = function(callback) {
 	    }, function() {
 
 	// Group B
-	insert_group({
+	insert_group(db, {
                         	teams: ["esp", "ned", "chi", "aus"],
                         	name: "Group B",
                         	firstToGroup: "1B-2A",
@@ -194,7 +190,7 @@ import_groups = function(callback) {
 	  	}, function() {
 
 	// Group C
-	insert_group({
+	insert_group(db, {
                         	teams: ["col", "gre", "civ", "jpn"],
                         	name: "Group C",
                         	firstToGroup: "1C-2D",
@@ -206,7 +202,7 @@ import_groups = function(callback) {
 	  	}, function() {
 
 	// Group D
-	insert_group({
+	insert_group(db, {
                         	teams: ["uru", "crc", "eng", "ita"],
                         	name: "Group D",
                         	firstToGroup: "1D-2C",
@@ -218,7 +214,7 @@ import_groups = function(callback) {
 	  	}, function() {
 
 	// Group E
-	insert_group({
+	insert_group(db, {
                         	teams: ["sui", "ecu", "fra", "hon"],
                         	name: "Group E",
                         	firstToGroup: "1E-2F",
@@ -230,7 +226,7 @@ import_groups = function(callback) {
 	  	}, function() {
 
 	// Group F
-	insert_group({
+	insert_group(db, {
                         	teams: ["arg", "bih", "irn", "nga"],
                         	name: "Group F",
                         	firstToGroup: "1F-2E",
@@ -242,7 +238,7 @@ import_groups = function(callback) {
 	  	}, function() {
 
 	// Group G
-	insert_group({
+	insert_group(db, {
                         	teams: ["ger", "por", "gha", "usa"],
                         	name: "Group G",
                         	firstToGroup: "1G-2H",
@@ -254,7 +250,7 @@ import_groups = function(callback) {
 	  	}, function() {
 
 	// Group H
-	insert_group({
+	insert_group(db, {
                         	teams: ["bel", "alg", "rus", "kor"],
                         	name: "Group H",
                         	firstToGroup: "1G-2H",
