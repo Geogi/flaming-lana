@@ -309,6 +309,7 @@ import_game_round2 = function(db, callback) {
 															game.end_at = game.play_at;
 															collection.insert(game, function (err, ngames) {
 																if (err) { console.log("Error inserting game: "+game); };
+																callback();
 															})})})})})})})})})})})})})})});
 
 }
@@ -528,14 +529,72 @@ import_groups = function(callback) {
 	return 0;
 }
 
+import_bet = function(user_id, callback) {
+	server.mongoConnectAndAuthenticate(function (err, conn, db) {
+	        var collection = db.collection(config.betsCollection);
+	        collection.remove(function (err, docs) {
+	        	if (err) {
+	        		console.log("Could not remove old data: " + err);
+	        	}
+	        });
+			var bet = { 'user_id': user_id };
+			collection.insert(user, function (err, nusers) {
+				if (err) { console.log("Error inserting user: "+user); };
+				user = { 'username': 'Christophe' };
+				collection.insert(user, function (err, ngames) {
+					if (err) { console.log("Error inserting user: "+user); };
+					user = { 'username': 'Elisa' };
+					collection.insert(user, function (err, ngames) {
+						if (err) { console.log("Error inserting user: "+user); };
+						user = { 'username': 'Nicolas' };
+						collection.insert(user, function (err, ngames) {
+							if (err) { console.log("Error inserting user: "+user); };
+							user = { 'username': 'Andoni' };
+							collection.insert(user, function (err, ngames) {
+								if (err) { console.log("Error inserting user: "+user); };
+								if (callback)
+									callback();
+							})})})})});
+		});
+}
+
+import_users = function(callback) {
+	server.mongoConnectAndAuthenticate(function (err, conn, db) {
+	        var collection = db.collection(config.usersCollection);
+	        collection.remove(function (err, docs) {
+	        	if (err) {
+	        		console.log("Could not remove old data: " + err);
+	        	}
+	        });
+			var user = { 'username': 'Lode' };
+			collection.insert(user, function (err, nusers) {
+				if (err) { console.log("Error inserting user: "+user); };
+				//import_bets()
+				user = { 'username': 'Christophe' };
+				collection.insert(user, function (err, ngames) {
+					if (err) { console.log("Error inserting user: "+user); };
+					user = { 'username': 'Elisa' };
+					collection.insert(user, function (err, ngames) {
+						if (err) { console.log("Error inserting user: "+user); };
+						user = { 'username': 'Nicolas' };
+						collection.insert(user, function (err, ngames) {
+							if (err) { console.log("Error inserting user: "+user); };
+							user = { 'username': 'Andoni' };
+							collection.insert(user, function (err, ngames) {
+								if (err) { console.log("Error inserting user: "+user); };
+								if (callback)
+									callback();
+							})})})})});
+		});
+}
+
 
 exports.import_all = function(callback) {
-	import_groups(function() {
-		import_games(callback)
-	});
+	import_groups(
+		import_games(
+			import_users(
+				callback)));
 };
-
-
 
 
 
