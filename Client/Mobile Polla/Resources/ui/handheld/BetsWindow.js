@@ -1,6 +1,6 @@
 var network = require('Network/Network');
 
-// items of the form [ [groupName, betSize], ...]
+// items of the form [ [groupName, games], ...]
 function BetsWindow(items) {
 
 	var self = Ti.UI.createWindow({
@@ -17,7 +17,7 @@ function BetsWindow(items) {
 		 for (var c = 0; c < response.length; c++) {
 			 var group = response[c];
 			 var betSize = group.games.length;
-			 groupData.push([group.name, betSize]);
+			 groupData.push([group.name, group.games]);
 		 };
 		 self.updateWindow(groupData);
 		 control.endRefreshing();		 
@@ -58,7 +58,7 @@ tableview.addEventListener('click', function(e) {
 	var index = e.index;
 	//var section = e.section;
 	var row = e.row;
-	
+	var rowName = e.rowTitle;
 	// if (section.rowdata.indexOf('clicked') == -1) {
 		// section.rowdata = section.rowdata + ' (clicked)';
 	// }
@@ -66,6 +66,24 @@ tableview.addEventListener('click', function(e) {
 		title : 'Table View',
 		message : 'row ' + row + ' index ' + index 
 	}).show();
+		var c = 0;
+		var stop = false;
+		var games = null;
+		while ( c < items.length && !stop) {
+		  var group = items[c];
+		  var name = group[0];
+		  if (name == rowName) {
+		  	stop = true;
+		  	games = group[1];
+		  };
+		  c++;
+		};	
+		if (games != null){
+		var MatchWindow = require('/ui/handheld/MatchListWindow');
+    	var myMatchWindow = MatchWindow.MatchesWindow(games);
+		self.containingTab.open(myMatchWindow);
+		}
+		
 });
 
 var buttonBet = Ti.UI.createButton({
@@ -99,8 +117,8 @@ function inflateListView(items) {
 	//create table view data object
 	for (var c = 0; c < items.length; c++) {
 		var group = items[c];
-		var titleR = group[0];
-		var betSize = group[1];
+		var name = group[0];
+		var games = group[1];
 		var itemID = c;
 		var progressBar = 'l' + c;
 
@@ -113,7 +131,7 @@ function inflateListView(items) {
 			max : 1,
 			value : 0,
 			style : Titanium.UI.iPhone.ProgressBarStyle.PLAIN,
-			message : 'bets on ' + betSize + ' matches',
+			message : 'bets on ' + games.length + ' matches',
 			font : {
 				fontSize : 12,
 				fontWeight : 'bold'
@@ -127,7 +145,7 @@ function inflateListView(items) {
 		});
 
 		var rowTitle = Ti.UI.createLabel({
-			text : titleR,
+			text : name,
 			color : '#666666',
 			left : 15,
 			font : {
