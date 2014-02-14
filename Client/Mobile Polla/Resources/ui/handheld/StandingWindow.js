@@ -8,26 +8,30 @@ function StandingWindow() {
 	});
 
 	var plainTemplate = {
-		childTemplates : [{
-			type : 'Ti.UI.Label', // Use a label
-			bindId : 'rowtitle', // Bind ID for this label
-			properties : {// Sets the Label.left property
-				left : '10dp'
-			}
-		}, {
+		childTemplates : [
+		{
 			type : 'Ti.UI.ImageView', // Use an image view
 			bindId : 'pic', // Bind ID for this image view
 			properties : {// Sets the ImageView.image property
-				image : 'KS_nav_ui.png'
+				image : '/images/user.png',
+				left : '10dp'
 			}
-		}, {
-			type : 'Ti.UI.Button', // Use a button
-			bindId : 'button', // Bind ID for this button
+		},
+		
+		{
+			type : 'Ti.UI.Label', // Use a label
+			bindId : 'username', // Bind ID for this label
+			properties : {// Sets the Label.left property
+			}
+		},
+		
+		, {
+			type : 'Ti.UI.Label', // Use a button
+			bindId : 'score', // Bind ID for this button
 			properties : {// Sets several button properties
 				width : '80dp',
 				height : '30dp',
 				right : '10dp',
-				title : 'press me'
 			},
 			events : {
 				click : report
@@ -39,7 +43,25 @@ function StandingWindow() {
 		Ti.API.info(e.type);
 	}
 
+	// Function to create a view with a label
+	var createCustomView = function(title) {
+		var view = Ti.UI.createView({
+			backgroundColor : '#222',
+			height : 40
+		});
+		var text = Ti.UI.createLabel({
+			text : title,
+			left : 20,
+			color : '#fff'
+		});
+		view.add(text);
+		return view;
+	}; 
+
+
+
 	var listView = Ti.UI.createListView({
+		headerView: createCustomView('User Scores'),
 		// Maps the plainTemplate object to the 'plain' style name
 		templates : {
 			'plain' : plainTemplate
@@ -54,8 +76,11 @@ function StandingWindow() {
 		data.push({
 			// Maps to the rowtitle component in the template
 			// Sets the text property of the Label component
-			rowtitle : {
-				text : 'Row ' + (i + 1)
+			username : {
+				text : 'User ' + (i + 1)
+			},
+			score : {
+				text : '12'
 			},
 			// Sets the regular list data properties
 			properties : {
