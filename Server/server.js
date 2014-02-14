@@ -10,6 +10,7 @@ var sleep = require('sleep');
 var groups = require("./urlroutes/groups");
 var teams = require("./urlroutes/teams");
 var games = require("./urlroutes/games");
+var bets = require("./urlroutes/bets");
 
 
 // use express and its bodyParser for POST requests.
@@ -85,6 +86,10 @@ app.get("/teams/getteams", teams.getTeams);
 
 app.get("/games/getgames", games.getGames);
 app.get("/games/getgamesbygroup", games.getGamesByGroup);
+
+// BETS
+
+app.post("/bets/postbet", bets.postBet);
 
 
 
