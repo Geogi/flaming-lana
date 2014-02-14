@@ -83,7 +83,13 @@ import_game = function(i) {
 						                } else if (!docs2) {
 						                	// Add new game to groups.games
 						                	docs2[0].games.push(docs[0]._id);
-						                	groupsCollection.save(docs2[0]);
+						                	groupsCollection.save(docs2[0], function(err, result) {
+												if (err) { 
+							                    	response.send({
+							                       	 	"meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
+							                       		"response": {}
+							                       	});
+						                    	}});
 						                } else {
 						                	alert("Error setting games in group");
 		                        		}
