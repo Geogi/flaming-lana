@@ -59,6 +59,8 @@ function inflateListView(items) {
 	var data = [];
 
 	for (var c = 0; c <items.length; c++) {
+		var game = items[c];
+		
 		data[c] = Ti.UI.createTableViewSection({
 			headerTitle : '  ',
 			height : 30
@@ -70,24 +72,24 @@ function inflateListView(items) {
 			height : 50
 		});
 		row1.add(Titanium.UI.createImageView({
-			image : "/images/COL.png",
+			image : "/images/" + game.team1_code + ".png",
 			left : 10,
 			height : 20,
 			width : 30
 		}));
 		row1.add(Titanium.UI.createLabel({
-			text : 'COL',
+			text : game.team1_code,
 			top : 13,
 			left : 50
 		}));
 		row1.add(Titanium.UI.createImageView({
-			image : "/images/BEL.png",
+			image : "/images/" + game.team2_code + ".png",
 			left : 220,
 			height : 20,
 			width : 30
 		}));
 		row1.add(Titanium.UI.createLabel({
-			text : 'BEL',
+			text : game.team2_code,
 			top : 13,
 			left : 260
 		}));
