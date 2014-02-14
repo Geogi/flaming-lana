@@ -1,7 +1,8 @@
 var network = require('Network/Network');
 
+// groups of the form [ [groupName, betSize], ...]
 var groups = new Array();
-// items of the form [ [groupName, games], ...]
+
 function BetsWindow(items) {
 
 	var self = Ti.UI.createWindow({
@@ -18,7 +19,7 @@ function BetsWindow(items) {
 		 for (var c = 0; c < response.length; c++) {
 			 var group = response[c];
 			 var betSize = group.games.length;
-			 groupData.push([group.name, group.games]);
+			 groupData.push([group.name, betSize]);
 		 };
 		 groups = groupData;
 		 self.updateWindow(groupData);
@@ -38,10 +39,10 @@ var control = Ti.UI.createRefreshControl({
 var tableview = Titanium.UI.createTableView({
 	data : data,
 	style : Titanium.UI.iPhone.TableViewStyle.PLAIN,
-	updateTableView: function(data) {
-		var data = inflateListView(data);
+	updateTableView: function(d) {
+		var p = inflateListView(d);
 		// re-add data to table view to the window
-		tableview.setData(data);
+		tableview.setData(p);
 	},
 	refreshControl:control
 });
@@ -59,33 +60,27 @@ tableview.addEventListener('click', function(e) {
 	// event data
 	var index = e.index;
 	var rowName = groups[index][0];
-	//var section = e.section;
-	// var row = e.row;
-	// var rowName = e.rowData;
-	// if (section.rowdata.indexOf('clicked') == -1) {
-		// section.rowdata = section.rowdata + ' (clicked)';
-	// }
-	
-	
-		var c = 0;
-		var stop = false;
-		var games = null;
-		while ( c < groups.length && !stop) {
-		  var group = groups[c];
-		  var name = group[0];
-		  if (name == rowName) {
-		  	stop = true;
-		  	games = group[1];
-		  };
-		  c++;
-		};	
-		if (games != null){
+		// var c = 0;
+		// var stop = false;
+		// var games = null;
+		// while ( c < groups.length && !stop) {
+		  // var group = groups[c];
+		  // var name = group[0];
+		  // if (name == rowName) {
+		  	// stop = true;
+		  	// games = group[1];
+		  // };
+		  // c++;
+		// };	
+		// if (games != null){
 		var MatchWindow = require('/ui/handheld/MatchListWindow');
-    	var myMatchWindow = MatchWindow.MatchesWindow(games);
+    	var myMatchWindow = MatchWindow.MatchesWindow(rowName);
 		self.containingTab.open(myMatchWindow);
-		}
+		//}
 		
 });
+
+var alreadyBet = false;
 
 var buttonBet = Ti.UI.createButton({
 		height:44,
@@ -96,8 +91,8 @@ var buttonBet = Ti.UI.createButton({
 
 buttonBet.addEventListener('click', function() {
 		Titanium.UI.createAlertDialog({
-		title : L('sendingbetalert'),
-		message : 'success? ' 
+		title : L('info'),
+		message : L('sendingbetalert') 
 	}).show();
 				
 });	
@@ -111,7 +106,6 @@ return self;
 	 
 
 function inflateListView(items) {	
-
 	// create empty array to add table data to
 	var data = [];
 
@@ -164,8 +158,9 @@ function inflateListView(items) {
 		row.add(rowTitle);
 		row.add(nestedView);
 		data.push(row);
-		return data;
-}
+	};
+	return data;
+
 };
 
 module.exports.BetsWindow = BetsWindow;

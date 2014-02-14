@@ -485,7 +485,7 @@ import_groups = function(callback) {
 	insert_group(db, {
                         	teams: ["1A", "2A", "1B", "2B", "1C", "2C", "1D", "2D", "1E", "2E", "1F", "2F", "1G", "1H", "2H"],
                         	name: "Round of 16",
-                        	firstToGroup: "Quarter-finals",
+                        	firstToGroup: "",
                         	start_at: "2014/06/28",
                         	end_at: "2014/06/30",
                         	games: []
@@ -529,32 +529,27 @@ import_groups = function(callback) {
 	return 0;
 }
 
-import_bet = function(user_id, callback) {
+import_bet = function(user_id, db, callback) {
 	server.mongoConnectAndAuthenticate(function (err, conn, db) {
-	        var collection = db.collection(config.betsCollection);
-	        collection.remove(function (err, docs) {
-	        	if (err) {
-	        		console.log("Could not remove old data: " + err);
-	        	}
-	        });
-			var bet = { 'user_id': user_id };
-			collection.insert(user, function (err, nusers) {
-				if (err) { console.log("Error inserting user: "+user); };
-				user = { 'username': 'Christophe' };
-				collection.insert(user, function (err, ngames) {
-					if (err) { console.log("Error inserting user: "+user); };
-					user = { 'username': 'Elisa' };
-					collection.insert(user, function (err, ngames) {
-						if (err) { console.log("Error inserting user: "+user); };
-						user = { 'username': 'Nicolas' };
-						collection.insert(user, function (err, ngames) {
-							if (err) { console.log("Error inserting user: "+user); };
-							user = { 'username': 'Andoni' };
-							collection.insert(user, function (err, ngames) {
-								if (err) { console.log("Error inserting user: "+user); };
-								if (callback)
-									callback();
-							})})})})});
+	        var betsCollection = db.collection(config.betsCollection);
+	        var gamesCollection = db.collection(config.gamesCollection);
+	        gamesCollection.find()
+	        	.toArray(function (err, games) {
+	        		for (var i = 0; i < games.length; i++) {
+	        			games[i].game_id = games[i]._id;
+	        			games[i].score_1 = Math.floor((Math.random()*4));
+	        			games[i].score_2 = Math.floor((Math.random()*4));
+	        		};
+					var bet = {
+						'user_id': user_id,
+						'amount': 500,
+						'bets': games
+					};
+					betsCollection.insert(bet, function (err, nbets) {
+						if (err) { console.log("Error inserting bet: "+bet); };
+						if (callback)
+							callback();
+					})});
 		});
 }
 
@@ -565,27 +560,33 @@ import_users = function(callback) {
 	        	if (err) {
 	        		console.log("Could not remove old data: " + err);
 	        	}
-	        });
-			var user = { 'username': 'Lode' };
-			collection.insert(user, function (err, nusers) {
-				if (err) { console.log("Error inserting user: "+user); };
-				import_bet(nusers[0]._id, db);
-				user = { 'username': 'Christophe' };
-				collection.insert(user, function (err, ngames) {
-					if (err) { console.log("Error inserting user: "+user); };
-				import_bet(nusers[0]._id, db);
-					user = { 'username': 'Elisa' };
-					collection.insert(user, function (err, ngames) {
+	        	var betsCollection = db.collection(config.betsCollection);
+	        	betsCollection.remove(function (err, docs) {
+		        	if (err) {
+		        		console.log("Could not remove old data: " + err);
+		        	}
+					var user = { 'username': 'Lode' };
+					collection.insert(user, function (err, nusers) {
 						if (err) { console.log("Error inserting user: "+user); };
-						user = { 'username': 'Nicolas' };
-						collection.insert(user, function (err, ngames) {
-							if (err) { console.log("Error inserting user: "+user); };
-							user = { 'username': 'Andoni' };
-							collection.insert(user, function (err, ngames) {
+						import_bet(nusers[0]._id, db, function() {
+							user = { 'username': 'Christophe' };
+							collection.insert(user, function (err, nusers) {
 								if (err) { console.log("Error inserting user: "+user); };
-								if (callback)
-									callback();
-							})})})})});
+								import_bet(nusers[0]._id, db, function() {
+									user = { 'username': 'Elisa' };
+									collection.insert(user, function (err, nusers) {
+										if (err) { console.log("Error inserting user: "+user); };
+										import_bet(nusers[0]._id, db, function() {
+											user = { 'username': 'Nicolas' };
+											collection.insert(user, function (err, nusers) {
+												if (err) { console.log("Error inserting user: "+user); };
+												import_bet(nusers[0]._id, db, function() {
+													user = { 'username': 'Andoni' };
+													collection.insert(user, function (err, nusers) {
+														if (err) { console.log("Error inserting user: "+user); };
+														if (callback)
+															callback();
+													})})})})})})})})})})});
 		});
 }
 

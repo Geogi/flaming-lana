@@ -85,7 +85,8 @@ app.get("/teams/getteams", teams.getTeams);
 // GAMES
 
 app.get("/games/getgames", games.getGames);
-app.get("/games/getgamesbygroup", games.getGamesByGroup);
+app.post("/games/getgamebyid", games.getGameById);
+app.post("/games/getgamesbygroup", games.getGamesByGroup);
 
 // BETS
 
