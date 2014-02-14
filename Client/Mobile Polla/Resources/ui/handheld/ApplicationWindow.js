@@ -20,10 +20,10 @@ function ApplicationWindow(title) {
 		//containingTab attribute must be set by parent tab group on
 		//the window for this work
 
-		var BetWindow = require('/ui/handheld/BetsWindow');
-    	var myBetWindow = BetWindow.BetsWindow();
+		var MatchWindow = require('/ui/handheld/MatchListWindow');
+    	var myMatchWindow = MatchWindow.MatchesWindow();
     
-		self.containingTab.open(myBetWindow);
+		self.containingTab.open(myMatchWindow);
 		
 	});
 

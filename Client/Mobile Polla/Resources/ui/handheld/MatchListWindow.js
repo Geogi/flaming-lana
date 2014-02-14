@@ -1,6 +1,6 @@
 var network = require('Network/Network');
 
-function MatchesWindow() {
+function MatchesWindow(games) {
 	var self = Ti.UI.createWindow({
 		title : L('Matches for Group 1'),
 		backgroundColor : 'white'
