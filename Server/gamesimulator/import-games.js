@@ -80,19 +80,15 @@ import_game = function(i) {
 						                        "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
 						                        "response": {}
 						                    });
-						                } else if (!docs) {
-						                	var team1_key = docs2[0]._id;
-						                	
-
+						                } else if (!docs2) {
+						                	// Add new game to groups.games
+						                	docs2[0].games.push(docs[0]._id);
+						                	groupsCollection.save(docs2[0]);
 						                } else {
 						                	alert("Error setting games in group"));
 		                        		}
 		                        	}
                             	});
-
-
-
-
 
                                 queryById(docs[0]._id, response);
                             }
