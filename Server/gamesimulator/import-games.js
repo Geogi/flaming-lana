@@ -98,7 +98,8 @@ import_game = function(db, i, index, callback) {
 
 import_game_round2_matches = function(db, game, callback) {
 	var groupsCollection = db.collection(config.groupsCollection);
-	groupsCollection.find({ 'teams': game.team1_key, 'games': []})
+	console.log("Adding game:"+game.team1_key);
+	groupsCollection.find({ 'teams': game.team1_key })
 			.toArray(function (err, groups) {
 		   		if (err) {
 		   			console.log("Error game round 2");
@@ -107,7 +108,13 @@ import_game_round2_matches = function(db, game, callback) {
                 	groupsCollection.save(groups[0], function(err, result) {
 						if (err) { 
 							console.log("Error game round 3");
-                    	}})}});
+                    	}
+                    	if (callback) {
+                    		callback();
+                    	}})
+                } else {
+                	console.log("Did not find group for team "+game.team1_key);
+                }});
 }
 
 import_game_round2 = function(db, callback) {
@@ -302,6 +309,21 @@ import_game_round2 = function(db, callback) {
 															'score1': Math.floor((Math.random()*4)),
 															'score2': Math.floor((Math.random()*4))
 														};
+														game.start_at = game.play_at;
+														game.end_at = game.play_at;
+														collection.insert(game, function (err, ngames) {
+															if (err) { console.log("Error inserting game: "+game); };
+															import_game_round2_matches(db, ngames[0], function() {
+															game = { 'team1_key': 'W59',
+																	'team1_title': 'Winner of W51 and W52',
+																	'team1_code': 'W59',
+																	'team2_key': 'W60',
+																	'team2_title': 'Winner of W55 and W56',
+																	'team2_code': 'W60',
+																	'play_at': '2014/07/09',
+																	'score1': Math.floor((Math.random()*4)),
+																	'score2': Math.floor((Math.random()*4))
+																};
 													game.start_at = game.play_at;
 													game.end_at = game.play_at;
 													collection.insert(game, function (err, ngames) {
@@ -340,7 +362,7 @@ import_game_round2 = function(db, callback) {
 																if (callback) {
 																	callback();
 																}
-															})})})})})})})})})})})})})})})})})})})})})})})}})})})})});
+															})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})})});
 
 }
 
