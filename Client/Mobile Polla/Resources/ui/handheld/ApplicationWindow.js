@@ -1,4 +1,5 @@
-var network = require('Network');
+//var network = require('Network');
+var network = require('Network/Network');
 
 
 function ApplicationWindow(title) {
