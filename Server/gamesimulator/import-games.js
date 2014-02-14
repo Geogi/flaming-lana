@@ -64,7 +64,6 @@ import_game = function(i) {
                             if (err) {
 	                    			console.log("Error IMPORT 4");
                             } else {
-
                             	var groupsCollection = db.collection(config.groupsCollection);
                             	console.log(game.team1_key);
                             	groupsCollection.find({ teams: game.team1_key })
@@ -75,7 +74,7 @@ import_game = function(i) {
 						                	console.log(groups);
 						                	// Add new game to groups.games
 						                	groups[0].games.push(docs[0]._id);
-						                	groupsCollection.save(docs2[0], function(err, result) {
+						                	groupsCollection.save(groups[0], function(err, result) {
 												if (err) { 
 	                    							console.log("Error IMPORT 2");
 						                    	}});
