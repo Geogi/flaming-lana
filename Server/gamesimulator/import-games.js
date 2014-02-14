@@ -132,17 +132,13 @@ insert_group = function(obj) {
                         "response": {}
                     });
                 } else if (!docs) {
-                    collection.insert(
-                    	obj
-                    , function (err, docs) {
+                    collection.insert(obj, function (err, docs) {
                         if (err) {
                             response.send({
                                 "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
                                 "response": {}
                             });
-                        } else {
-                            queryById(docs[0]._id, response);
-                        }
+                        } 
                     });  
                 } else {
                     // increase resultAmount so on next iteration the algorithm knows the id was found.
@@ -160,7 +156,11 @@ exports.import_groups = function() {
 
 	server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.groupsCollection);
-	        collection.remove();
+	        collection.remove(function (err, docs) {
+	        	if (err) {
+	        		console.log("Could not remove old data: " + err);
+	        	}
+	        });
 
 	// Group A
 	insert_group({
