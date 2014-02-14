@@ -39,10 +39,10 @@ var control = Ti.UI.createRefreshControl({
 var tableview = Titanium.UI.createTableView({
 	data : data,
 	style : Titanium.UI.iPhone.TableViewStyle.PLAIN,
-	updateTableView: function(data) {
-		var data = inflateListView(data);
+	updateTableView: function(d) {
+		var p = inflateListView(d);
 		// re-add data to table view to the window
-		tableview.setData(data);
+		tableview.setData(p);
 	},
 	refreshControl:control
 });
@@ -106,7 +106,6 @@ return self;
 	 
 
 function inflateListView(items) {	
-
 	// create empty array to add table data to
 	var data = [];
 
@@ -159,8 +158,9 @@ function inflateListView(items) {
 		row.add(rowTitle);
 		row.add(nestedView);
 		data.push(row);
-		return data;
-}
+	};
+	return data;
+
 };
 
 module.exports.BetsWindow = BetsWindow;
