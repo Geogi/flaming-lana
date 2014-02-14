@@ -87,8 +87,7 @@ import_game = function(i) {
 						                } else {
 						                	alert("Error setting games in group");
 		                        		}
-		                        	}
-                            	});
+		                        });
 
                                 queryById(docs[0]._id, response);
                             }
@@ -104,10 +103,11 @@ import_game = function(i) {
 	            });
 	    });
 	});
+}
 
 
 exports.import_games = function(request, response) {
-	for (var i = 1; < 21; i++) {
+	for (var i = 1; i < 21; i++) {
 		//import_game(i);
 	};
 	import_game(1);
@@ -157,98 +157,98 @@ exports.import_groups = function() {
 	        collection.remove();
 
 	// Group A
-	insert_group(
+	insert_group({
                         	teams: ["bra", "cro", "mex", "cmr"],
                         	name: "Group A",
                         	firstToGroup: "1A-2B",
                         	secondToGroup: "1B-2A",
                         	start_at: "2014/06/12",
                         	end_at: "2014/06/23",
-                        	games: []);
+                        	games: []
 
 	    });
 
 	// Group B
-	insert_group(
+	insert_group({
                         	teams: ["esp", "ned", "chi", "aus"],
                         	name: "Group B",
                         	firstToGroup: "1B-2A",
                         	secondToGroup: "1A-2B",
                         	start_at: "2014/06/13",
                         	end_at: "2014/06/23",
-                        	games: []);
+                        	games: []
 
 	  	});
 
 	// Group C
-	insert_group(
+	insert_group({
                         	teams: ["col", "gre", "civ", "jpn"],
                         	name: "Group C",
                         	firstToGroup: "1C-2D",
                         	secondToGroup: "1D-2C",
                         	start_at: "2014/06/14",
                         	end_at: "2014/06/24",
-                        	games: []);
+                        	games: []
 
 	  	});
 
 	// Group D
-	insert_group(
+	insert_group({
                         	teams: ["uru", "crc", "eng", "ita"],
                         	name: "Group D",
                         	firstToGroup: "1D-2C",
                         	secondToGroup: "1C-2D",
                         	start_at: "2014/06/14",
                         	end_at: "2014/06/24",
-                        	games: []);
+                        	games: []
 
 	  	});
 
 	// Group E
-	insert_group(
+	insert_group({
                         	teams: ["sui", "ecu", "fra", "hon"],
                         	name: "Group E",
                         	firstToGroup: "1E-2F",
                         	secondToGroup: "1F-2E",
                         	start_at: "2014/06/15",
                         	end_at: "2014/06/25",
-                        	games: []);
+                        	games: []
 
 	  	});
 
 	// Group F
-	insert_group(
+	insert_group({
                         	teams: ["arg", "bih", "irn", "nga"],
                         	name: "Group F",
                         	firstToGroup: "1F-2E",
                         	secondToGroup: "1E-2F",
                         	start_at: "2014/06/15",
                         	end_at: "2014/06/25",
-                        	games: []);
+                        	games: []
 
 	  	});
 
 	// Group G
-	insert_group(
+	insert_group({
                         	teams: ["ger", "gha", "gha", "usa"],
                         	name: "Group G",
                         	firstToGroup: "1G-2H",
                         	secondToGroup: "1H-2G",
                         	start_at: "2014/06/16",
                         	end_at: "2014/06/26",
-                        	games: []);
+                        	games: []
 
 	  	});
 
 	// Group H
-	insert_group(
+	insert_group({
                         	teams: ["bel", "alg", "rus", "kor"],
                         	name: "Group H",
                         	firstToGroup: "1G-2H",
                         	secondToGroup: "1H-2G",
                         	start_at: "2014/06/17",
                         	end_at: "2014/06/26",
-                        	games: []);
+                        	games: []
 
 	  	});
 

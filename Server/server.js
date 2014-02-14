@@ -46,14 +46,14 @@ function mongoConnectAndAuthenticate(callback) {
         // ADD YOUR COLLECTIONS AND INDEXES ON THEM HERE TO MAKE SURE THEY'RE ALWAYS THERE
         (db.collection(config.groupsCollection)).ensureIndex( { name: 1 }, function(err, idxName) {
             (db.collection(config.teamsCollection)).ensureIndex( { shortName: 1 }, function(err, idxName) {
-                (db.collection(config.roundsCollection)).ensureIndex( { pos: 1 }, function(err, idxName) {
+                //(db.collection(config.roundsCollection)).ensureIndex( { pos: 1 }, function(err, idxName) {
                     (db.collection(config.gamesCollection)).ensureIndex( { team1_key: 1, team2_key: 1 }, function(err, idxName) {
                 if (err) {
                     console.log(err);
                 }
                 callback(err, null, db);
             });
-            });
+            //});
             });
         });
     });
