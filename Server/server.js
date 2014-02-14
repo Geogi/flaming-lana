@@ -1,0 +1,78 @@
+var WebSocketServer = require('ws').Server
+var express = require("express");
+var utils = require("./utils");
+var moment = require('moment');
+var config = require("./auth/dbconfig.js");
+
+// Project-specific modules
+var groups = require("./urlroutes/groups");
+
+
+// use express and its bodyParser for POST requests.
+var app = express();
+app.use(express.bodyParser());
+
+// prevent server death in case of uncaught exceptions
+process.on('uncaughtException', function (exception) {
+    console.log(exception);
+});
+
+/**
+ * Check if there is a process.env db config (such as on Heroku) that stores the URL to the MongoDB.
+ * If not, use the direct URL to a mongoDB stored in the db config.
+ * Change to the correct provider (here example is MONGOHQ_URL).
+ */
+var mongourl;
+if (process.env.MONGOHQ_URL) {
+     mongourl = process.env.MONGOHQ_URL;
+}
+else {
+    mongourl = config.mongourl;
+}
+
+
+exports.mongourl = mongourl;
+
+
+// This function can be used to open a connection to the MongoDB.
+// In case of a succesful connect or an error, the callback is called.
+// In the first case the opened db is passed as a parameter.
+function mongoConnectAndAuthenticate(callback) {
+    var MongoClient = require('mongodb').MongoClient;
+    MongoClient.connect(mongourl, function(err, db) {
+        // ADD YOUR COLLECTIONS AND INDEXES ON THEM HERE TO MAKE SURE THEY'RE ALWAYS THERE
+        (db.collection(config.groupsCollection)).ensureIndex( { name: 1 }, function(err, idxName) {
+            //(db.collection(config.collection2)).ensureIndex( { field1: 1, field2: 1 }, function(err, idxName) {
+                if (err) {
+                    console.log(err);
+                }
+                callback(err, null, db);
+            });
+        //});
+    });
+}
+
+exports.mongoConnectAndAuthenticate = mongoConnectAndAuthenticate;
+
+
+
+
+// define the users API url routes.
+//app.post("/users/login", users.login);
+//app.get("/users/penis", users.getPenis);
+
+app.post("/groups/getgroup", groups.getGroupByName);
+
+
+
+
+app.use(express.static(__dirname + '/clientpage'));
+
+
+// start server on port 8888 OR on the port in the cloud deployment config.
+console.log("Listening on port " + (process.env.PORT || 8888) +  "...");
+app.listen(process.env.PORT || 8888);
+
+
+
+
