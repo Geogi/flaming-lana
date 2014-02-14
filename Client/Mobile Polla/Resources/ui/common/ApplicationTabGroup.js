@@ -3,26 +3,34 @@ function ApplicationTabGroup(Window) {
 	var self = Ti.UI.createTabGroup();
 
 	//create app tabs
-	var win1 = new Window(L('home')),
-		win2 = new Window(L('settings'));
+	var win1 = new Window(L('standings')),
+		win2 = new Window(L('bets')),
+		win3 = new Window(L('money'));
 
 	var tab1 = Ti.UI.createTab({
-		title: L('home'),
-		icon: '/images/KS_nav_ui.png',
+		title: L('Standings'),
+		icon: '/images/list.png',
 		window: win1
 	});
 	win1.containingTab = tab1;
 
 	var tab2 = Ti.UI.createTab({
-		title: L('settings'),
-		icon: '/images/KS_nav_views.png',
+		title: L('Bets'),
+		icon: '/images/bet.jpg',
 		window: win2
 	});
 	win2.containingTab = tab2;
 
+    var tab3 = Ti.UI.createTab({
+		title: L('Money'),
+		icon: '/images/sports_betting_money.jpg',
+		window: win3
+	});
+	win3.containingTab = tab3;
+	
 	self.addTab(tab1);
 	self.addTab(tab2);
-
+	self.addTab(tab3);
 	return self;
 };
 
