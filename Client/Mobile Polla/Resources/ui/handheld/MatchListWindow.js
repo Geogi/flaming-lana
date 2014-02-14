@@ -1,15 +1,64 @@
 var network = require('Network/Network');
 
-function MatchesWindow(games) {
+function MatchesWindow(groupName) {
 	var self = Ti.UI.createWindow({
-		title : L('Matches for Group 1'),
-		backgroundColor : 'white'
+		title : L('matches') + groupName,
+		backgroundColor : 'white',
+		updateWindow: function(data) {
+			tableview.updateTableView(data);
+		}
 	});
+
+	function updateView(groupName) {
+		network.getGamesByGroup(groupName, function(response) {
+		 self.updateWindow(response);
+		 //control.endRefreshing();		 
+	 });
+	};
+	
+	updateView(groupName);
+	// create empty array to add table data to
+	var data = [];
+	
+	// create table view
+	var tableview = Titanium.UI.createTableView({
+		data : data,
+		style : Titanium.UI.iPhone.TableViewStyle.GROUPED,
+		updateTableView: function(data) {
+			var data = inflateListView(data);
+			// re-add data to table view to the window
+			tableview.setData(data);
+		},
+	});
+
+	// create table view event listener
+	/*	tableview.addEventListener('click', function(e) {
+	// event data
+	var index = e.index;
+	var section = e.section;
+	var row = e.row;
+	var rowdata = e.rowData;
+	if (section.headerTitle.indexOf('clicked') == -1) {
+	section.headerTitle = section.headerTitle + ' (clicked)';
+	}
+	Titanium.UI.createAlertDialog({
+	title : 'Table View',
+	message : 'row ' + row + ' index ' + index + ' section ' + section + ' row data ' + rowdata
+	}).show();
+	});
+	*/
+	// add table view to the window
+	self.add(tableview);
+
+	return self;
+};
+
+function inflateListView(items) {	
 
 	// create table view data object
 	var data = [];
 
-	for (var c = 0; c < 5; c++) {
+	for (var c = 0; c <items.length; c++) {
 		data[c] = Ti.UI.createTableViewSection({
 			headerTitle : '  ',
 			height : 30
@@ -105,33 +154,8 @@ function MatchesWindow(games) {
 	
 	buttonRow.add(rightButton);
 	data[7].add(buttonRow);
+	
+	return data;
 
-	// create table view
-	var tableview = Titanium.UI.createTableView({
-		data : data,
-		style : Titanium.UI.iPhone.TableViewStyle.GROUPED
-	});
-
-	// create table view event listener
-	/*	tableview.addEventListener('click', function(e) {
-	// event data
-	var index = e.index;
-	var section = e.section;
-	var row = e.row;
-	var rowdata = e.rowData;
-	if (section.headerTitle.indexOf('clicked') == -1) {
-	section.headerTitle = section.headerTitle + ' (clicked)';
-	}
-	Titanium.UI.createAlertDialog({
-	title : 'Table View',
-	message : 'row ' + row + ' index ' + index + ' section ' + section + ' row data ' + rowdata
-	}).show();
-	});
-	*/
-	// add table view to the window
-	self.add(tableview);
-
-	return self;
 };
-
 module.exports.MatchesWindow = MatchesWindow;
