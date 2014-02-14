@@ -16,10 +16,10 @@
      timeout : 5000  // in milliseconds
  });
  
- function getTeams(jobject) {
+exports.getTeams = function getTeams(jobject) {
  	 // Prepare the connection.
  		client.open("POST", getTeamsUrl);
  		client.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
  		// Send the request.
  		client.send(jobject);
- }
+};

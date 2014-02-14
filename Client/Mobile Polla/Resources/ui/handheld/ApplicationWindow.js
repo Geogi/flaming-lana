@@ -18,13 +18,15 @@ function ApplicationWindow(title) {
 	button.addEventListener('click', function() {
 		//containingTab attribute must be set by parent tab group on
 		//the window for this work
+		
+		network.getTeams({name: "BOBY!!"});
+
 		self.containingTab.open(Ti.UI.createWindow({
 			title: L('newWindow'),
 			backgroundColor: 'white'
 		}));
 		
 		
-		getTeams({name: "BOBY!!"});
 		
 	});
 	
