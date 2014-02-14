@@ -143,7 +143,7 @@ data.push({
 
 function StandingWindow() {
 	var control = Ti.UI.createRefreshControl({
-    	tintColor:'red'
+    	tintColor:'blue'
 	});
 	
 	var listView = Ti.UI.createListView({

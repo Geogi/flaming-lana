@@ -1,7 +1,8 @@
 var network = require('Network/Network');
 
+// groups of the form [ [groupName, betSize], ...]
 var groups = new Array();
-// items of the form [ [groupName, games], ...]
+
 function BetsWindow(items) {
 
 	var self = Ti.UI.createWindow({
@@ -18,7 +19,7 @@ function BetsWindow(items) {
 		 for (var c = 0; c < response.length; c++) {
 			 var group = response[c];
 			 var betSize = group.games.length;
-			 groupData.push([group.name, group.games]);
+			 groupData.push([group.name, betSize]);
 		 };
 		 groups = groupData;
 		 self.updateWindow(groupData);
@@ -59,25 +60,27 @@ tableview.addEventListener('click', function(e) {
 	// event data
 	var index = e.index;
 	var rowName = groups[index][0];
-		var c = 0;
-		var stop = false;
-		var games = null;
-		while ( c < groups.length && !stop) {
-		  var group = groups[c];
-		  var name = group[0];
-		  if (name == rowName) {
-		  	stop = true;
-		  	games = group[1];
-		  };
-		  c++;
-		};	
-		if (games != null){
+		// var c = 0;
+		// var stop = false;
+		// var games = null;
+		// while ( c < groups.length && !stop) {
+		  // var group = groups[c];
+		  // var name = group[0];
+		  // if (name == rowName) {
+		  	// stop = true;
+		  	// games = group[1];
+		  // };
+		  // c++;
+		// };	
+		// if (games != null){
 		var MatchWindow = require('/ui/handheld/MatchListWindow');
     	var myMatchWindow = MatchWindow.MatchesWindow(rowName);
 		self.containingTab.open(myMatchWindow);
-		}
+		//}
 		
 });
+
+var alreadyBet = false;
 
 var buttonBet = Ti.UI.createButton({
 		height:44,
@@ -88,8 +91,8 @@ var buttonBet = Ti.UI.createButton({
 
 buttonBet.addEventListener('click', function() {
 		Titanium.UI.createAlertDialog({
-		title : L('sendingbetalert'),
-		message : 'success? ' 
+		title : L('info'),
+		message : L('sendingbetalert') 
 	}).show();
 				
 });	
