@@ -10,7 +10,8 @@ function BetsWindow(items) {
 		backgroundColor : 'white',
 		updateWindow: function(data) {
 			tableview.updateTableView(data);
-		}
+		},
+		
 	});
 	
 	function updateView() {
@@ -44,7 +45,10 @@ var tableview = Titanium.UI.createTableView({
 		// re-add data to table view to the window
 		tableview.setData(p);
 	},
-	refreshControl:control
+	refreshControl:control,
+	footerView : Ti.UI.createView({
+    height : '100px'
+	})
 });
 
 control.addEventListener('refreshstart',function(e){
@@ -97,8 +101,9 @@ buttonBet.addEventListener('click', function() {
 				
 });	
 // add table view to the window
+tableview.footerView.add(buttonBet);
 self.add(tableview);
-self.add(buttonBet);
+//self.add(buttonBet);
 
 return self;
 
