@@ -64,6 +64,7 @@ exports.mongoConnectAndAuthenticate = mongoConnectAndAuthenticate;
 
 // INSERT INITIAL GAMES DATA
 data_import.import_groups();
+data_import.import_games();
 
 
 // define the users API url routes.
