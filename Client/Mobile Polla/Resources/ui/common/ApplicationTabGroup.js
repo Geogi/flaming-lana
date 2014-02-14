@@ -10,12 +10,16 @@ function ApplicationTabGroup(Window) {
     var BetWindow = require('/ui/handheld/BetsWindow');
     var myBetWindow = BetWindow.BetsWindow();
     
+    
+    var standingWindow = require('/ui/handheld/StandingWindow');
+    var myStandingWindow = standingWindow.StandingWindow();
+
 	var tab1 = Ti.UI.createTab({
 		title: L('Standings'),
 		icon: '/images/list.png',
-		window: win1
+		window: myStandingWindow
 	});
-	win1.containingTab = tab1;
+	myStandingWindow.containingTab = tab1;
 
 	var tab2 = Ti.UI.createTab({
 		title: L('Bets'),
