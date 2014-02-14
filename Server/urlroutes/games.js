@@ -53,7 +53,7 @@ exports.getGamesByGroup = function(request, response) {
                     var amount = 0;
        				var gamesCollection = db.collection(config.gamesCollection);
        				gamesCollection.find({ '_id': { $in: group.games } })
-            			.each(function (err, games) {
+            			.toArray(function (err, games) {
                 			if (err) {
                     			response.send({
                         			"meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
