@@ -1,6 +1,6 @@
-
-
 var network = require('Network/Network');
+
+var game_scores[]; 
 
 function MatchesWindow(games) {
 	var self = Ti.UI.createWindow({
@@ -56,9 +56,10 @@ function MatchesWindow(games) {
 		var picker = Titanium.UI.createPicker({
 			//type : Titanium.UI.P 
 			left : 10,
-			width : 40,
+			width : 140,
 			heigh : 50
 		});
+		
 		var data2 = [];
 		var data3 = [];
 		data2.push(Titanium.UI.createPickerRow({
@@ -68,21 +69,31 @@ function MatchesWindow(games) {
 			title : ' '
 		}));
 		for (var j = 0; j < 11; j++) {
-			data2.push(Titanium.UI.createPickerRow({
+			data2[j] = Titanium.UI.createPickerRow({
 				title : j.toString()
-			}));
-			data3.push(Titanium.UI.createPickerRow({
+			});
+			data3[j] = Titanium.UI.createPickerRow({
 				title : j.toString()
-			}));
+			});
 		}
 		var picker2 = Titanium.UI.createPicker({
 			left : 220,
 			width : 40,
 			heigh : 50
 		});
-
+		picker.selectionIndicator = true;
+		picker2.selectionIndicator = true;
 		picker.add(data2);
 		picker2.add(data3);
+		picker2.addEventListener('click', function(e) {
+			alert(e.row.title);
+		});
+		
+		picker.addEventListener('change', function(e) {
+			alert(e.row.title);
+		});
+		
+		
 		row2.add(picker);
 		row2.add(picker2);
 		sec.add(row2);
@@ -104,8 +115,8 @@ function MatchesWindow(games) {
 			right : 10,
 		});
 	rightButton.addEventListener('click', function(e) {
-			for(var index=0; index<tableview.data.length; index++) {
-				var aSection = tableview.data[index];
+			for(var index=0; index<data.length; index++) {
+				var aSection = data[index];
 				var aRow = aSection.rows[1];
 				Ti.API.info(aRow);
 				Ti.API.info(aRow.children);
