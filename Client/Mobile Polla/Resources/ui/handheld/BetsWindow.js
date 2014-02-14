@@ -59,14 +59,6 @@ tableview.addEventListener('click', function(e) {
 	// event data
 	var index = e.index;
 	var rowName = groups[index][0];
-	//var section = e.section;
-	// var row = e.row;
-	// var rowName = e.rowData;
-	// if (section.rowdata.indexOf('clicked') == -1) {
-		// section.rowdata = section.rowdata + ' (clicked)';
-	// }
-	
-	
 		var c = 0;
 		var stop = false;
 		var games = null;
@@ -81,7 +73,7 @@ tableview.addEventListener('click', function(e) {
 		};	
 		if (games != null){
 		var MatchWindow = require('/ui/handheld/MatchListWindow');
-    	var myMatchWindow = MatchWindow.MatchesWindow(games);
+    	var myMatchWindow = MatchWindow.MatchesWindow(rowName);
 		self.containingTab.open(myMatchWindow);
 		}
 		
