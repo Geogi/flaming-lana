@@ -43,6 +43,7 @@ import_game = function(i) {
 	games = fileJSON["games"];
 	games.forEach(function(game) {
 
+								require('sleep').sleep(5);
 	    server.mongoConnectAndAuthenticate(function (err, conn, db) {
 	        var collection = db.collection(config.gamesCollection);
 	        collection.find({ 'team1_key': game.team1_key, 'play_at': game.play_at })
@@ -65,9 +66,10 @@ import_game = function(i) {
 	                    			console.log("Error IMPORT 4");
                             } else {
                             	var groupsCollection = db.collection(config.groupsCollection);
-                            	console.log(game.team1_key);
-                            	groupsCollection.find({ teams: game.team1_key })
-                            		.toArray(function (err, groups) {
+                            	groupsCollection.find()
+                            		.toArray(function (err, docs) {
+						                console.log(docs);
+						                console.log(err);
 		                        		if (err) { 
 	                    					console.log("Error IMPORT 3");
 						                } else if (groups) {
@@ -79,13 +81,13 @@ import_game = function(i) {
 	                    							console.log("Error IMPORT 2");
 						                    	}});
 						                } else {
-						                	console.log("Error setting games in group");
+						                	console.log("Error setting games in group (could not find group for team '"+game.team1_key+"')");
 		                        		}
 		                        });
                             }
                         });  
 	                } else {
-	                    console.log("Error IMPORT 1");
+	                    console.log("Error IMPORT 1: "+game);
 	                }
 	            });
 	    });
