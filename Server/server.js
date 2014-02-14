@@ -77,6 +77,8 @@ app.get("/groups/getgroups", groups.getGroups);
 
 // GAMES
 
+app.get("/games/getgamesbygroup", games.getGamesByGroup);
+
 
 
 
