@@ -141,7 +141,7 @@ import_game_round2 = function(db, callback) {
 		game.end_at = game.play_at;
 		collection.insert(game, function (err, ngames) {
 			if (err) { console.log("Error inserting game: "+game); };
-			import_game_round2_matches(db, ngames[0]);
+			import_game_round2_matches(db, ngames[0], function() {
 			game = { 'team1_key': '1E',
 					'team1_title': 'First team of Group E',
 					'team1_code': '1E',
@@ -156,7 +156,7 @@ import_game_round2 = function(db, callback) {
 			game.end_at = game.play_at;
 			collection.insert(game, function (err, ngames) {
 				if (err) { console.log("Error inserting game: "+game); };
-				import_game_round2_matches(db, ngames[0]);
+				import_game_round2_matches(db, ngames[0], function() {
 				game = { 'team1_key': '1G',
 						'team1_title': 'First team of Group G',
 						'team1_code': '1G',
@@ -171,7 +171,7 @@ import_game_round2 = function(db, callback) {
 				game.end_at = game.play_at;
 				collection.insert(game, function (err, ngames) {
 					if (err) { console.log("Error inserting game: "+game); };
-					import_game_round2_matches(db, ngames[0]);
+					import_game_round2_matches(db, ngames[0], function() {
 					game = { 'team1_key': '1B',
 							'team1_title': 'First team of Group B',
 							'team1_code': '1B',
@@ -186,7 +186,7 @@ import_game_round2 = function(db, callback) {
 					game.end_at = game.play_at;
 					collection.insert(game, function (err, ngames) {
 						if (err) { console.log("Error inserting game: "+game); };
-						import_game_round2_matches(db, ngames[0]);
+						import_game_round2_matches(db, ngames[0], function() {
 						game = { 'team1_key': '1D',
 								'team1_title': 'First team of Group D',
 								'team1_code': '1D',
@@ -201,7 +201,7 @@ import_game_round2 = function(db, callback) {
 						game.end_at = game.play_at;
 						collection.insert(game, function (err, ngames) {
 							if (err) { console.log("Error inserting game: "+game); };
-							import_game_round2_matches(db, ngames[0]);
+							import_game_round2_matches(db, ngames[0], function() {
 							game = { 'team1_key': '1F',
 									'team1_title': 'First team of Group F',
 									'team1_code': '1F',
@@ -216,7 +216,7 @@ import_game_round2 = function(db, callback) {
 							game.end_at = game.play_at;
 							collection.insert(game, function (err, ngames) {
 								if (err) { console.log("Error inserting game: "+game); };
-								import_game_round2_matches(db, ngames[0]);
+								import_game_round2_matches(db, ngames[0], function() {
 								game = { 'team1_key': '1H',
 										'team1_title': 'First team of Group H',
 										'team1_code': '1H',
@@ -231,7 +231,7 @@ import_game_round2 = function(db, callback) {
 								game.end_at = game.play_at;
 								collection.insert(game, function (err, ngames) {
 									if (err) { console.log("Error inserting game: "+game); };
-									import_game_round2_matches(db, ngames[0]);
+									import_game_round2_matches(db, ngames[0], function() {
 									game = { 'team1_key': 'W49',
 											'team1_title': 'Winner of 1A and 2B',
 											'team1_code': 'W49',
@@ -246,7 +246,7 @@ import_game_round2 = function(db, callback) {
 									game.end_at = game.play_at;
 									collection.insert(game, function (err, ngames) {
 										if (err) { console.log("Error inserting game: "+game); };
-										import_game_round2_matches(db, ngames[0]);
+										import_game_round2_matches(db, ngames[0], function() {
 										game = { 'team1_key': 'W53',
 												'team1_title': 'Winner of 1E and 2F',
 												'team1_code': 'W53',
@@ -261,7 +261,7 @@ import_game_round2 = function(db, callback) {
 										game.end_at = game.play_at;
 										collection.insert(game, function (err, ngames) {
 											if (err) { console.log("Error inserting game: "+game); };
-											import_game_round2_matches(db, ngames[0]);
+											import_game_round2_matches(db, ngames[0], function() {
 											game = { 'team1_key': 'W51',
 													'team1_title': 'Winner of 1B and 2A',
 													'team1_code': 'W51',
@@ -276,7 +276,7 @@ import_game_round2 = function(db, callback) {
 											game.end_at = game.play_at;
 											collection.insert(game, function (err, ngames) {
 												if (err) { console.log("Error inserting game: "+game); };
-												import_game_round2_matches(db, ngames[0]);
+												import_game_round2_matches(db, ngames[0], function() {
 												game = { 'team1_key': 'W55',
 														'team1_title': 'Winner of 1F and 2E',
 														'team1_code': 'W55',
@@ -291,7 +291,7 @@ import_game_round2 = function(db, callback) {
 												game.end_at = game.play_at;
 												collection.insert(game, function (err, ngames) {
 													if (err) { console.log("Error inserting game: "+game); };
-													import_game_round2_matches(db, ngames[0]);
+													import_game_round2_matches(db, ngames[0], function() {
 													game = { 'team1_key': 'W57',
 															'team1_title': 'Winner of W49 and W50',
 															'team1_code': 'W57',
@@ -306,7 +306,7 @@ import_game_round2 = function(db, callback) {
 													game.end_at = game.play_at;
 													collection.insert(game, function (err, ngames) {
 														if (err) { console.log("Error inserting game: "+game); };
-														import_game_round2_matches(db, ngames[0]);
+														import_game_round2_matches(db, ngames[0], function() {
 														game = { 'team1_key': 'W61',
 																'team1_title': 'Winner of W57 and W58',
 																'team1_code': 'W61',
@@ -321,7 +321,7 @@ import_game_round2 = function(db, callback) {
 														game.end_at = game.play_at;
 														collection.insert(game, function (err, ngames) {
 															if (err) { console.log("Error inserting game: "+game); };
-															import_game_round2_matches(db, ngames[0]);
+															import_game_round2_matches(db, ngames[0], function() {
 															game = { 'team1_key': 'L61',
 																	'team1_title': 'Winner of W57 and W58',
 																	'team1_code': 'L61',
@@ -336,11 +336,11 @@ import_game_round2 = function(db, callback) {
 															game.end_at = game.play_at;
 															collection.insert(game, function (err, ngames) {
 																if (err) { console.log("Error inserting game: "+game); };
-																import_game_round2_matches(db, ngames[0]);
+																import_game_round2_matches(db, ngames[0], function() {
 																if (callback) {
 																	callback();
 																}
-															})})})})})})})})})})})})})})});
+															})})})})})})})})})})})})})})})})})})})})})})})}})})})})});
 
 }
 
