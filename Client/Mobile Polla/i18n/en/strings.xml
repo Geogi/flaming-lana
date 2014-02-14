@@ -8,4 +8,5 @@
 	<string name="money">Money </string>
 	<string name="standings">Standings </string>
 	<string name="sendingbetalert">Sending your bet to the server </string>
+	<string name="info">Info</string>
 </resources>

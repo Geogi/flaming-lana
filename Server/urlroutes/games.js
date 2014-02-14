@@ -31,7 +31,7 @@ exports.getGamesByGroup = function(request, response) {
     server.mongoConnectAndAuthenticate(function (err, conn, db) {
         var collection = db.collection(config.groupsCollection);
         collection.find({ 'name': group_name })
-            .each(function (err, docs) {
+            .toArray(function (err, docs) {
                 if (err) {
                     response.send({
                         "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
@@ -47,7 +47,7 @@ exports.getGamesByGroup = function(request, response) {
                         });
                     //}
                 } else {
-                    var group = docs;
+                    var group = docs[0];
        				var gamesCollection = db.collection(config.gamesCollection);
        				gamesCollection.find({ '_id': { $in: group.games } })
             			.toArray(function (err, games) {

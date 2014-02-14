@@ -21,8 +21,7 @@ function ApplicationWindow(title) {
 		//the window for this work
 
 		var MatchWindow = require('/ui/handheld/MatchListWindow');
-    	var myMatchWindow = MatchWindow.MatchesWindow();
-    
+    	var myMatchWindow = MatchWindow.MatchesWindow("non");
 		self.containingTab.open(myMatchWindow);
 		
 	});
