@@ -94,8 +94,8 @@ exports.getUser = function (request, response) {
                 								var score_game = { score_score1: game.score_1, game: score_2 };
                 								var bet = bet.bets.filter(function (el) { return (el.game_id == game_id); });
                 								if (bet.length > 0) {
-                									score_games.push({ score_score1: game.score_1, game: score_2 });
-                									user_bets.push({ score_score1: bet.score_1, game: bet });
+                									score_games.push({ score_score1: game.score_1, score_score2: game.score_2 });
+                									user_bets.push({ score_score1: bet[0].score_1, score_score2: bet[0].score_2 });
                 								}
                 								var points = score.computeScore(user_bets, score_games);
 
