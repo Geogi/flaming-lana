@@ -4,9 +4,94 @@ var network = require('Network/Network');
 function BetsWindow(items) {
 
 	var self = Ti.UI.createWindow({
-		title : "Bets",
-		backgroundColor : 'white'
+		title : "Betting Overview",
+		backgroundColor : 'white',
+		updateWindow: function(data) {
+			tableview.updateTableView(data);
+		}
 	});
+	
+	function updateView() {
+		network.getGroups(function(response) {
+		var groupData = [];
+		 for (var c = 0; c < response.length; c++) {
+			 var group = response[c];
+			 var betSize = group.games.length;
+			 groupData.push([group.name, betSize]);
+		 };
+		 self.updateWindow(groupData);
+		 control.endRefreshing();		 
+	 });
+	};
+	
+	updateView();
+// create empty array to add table data to
+	var data = [];
+
+var control = Ti.UI.createRefreshControl({
+    tintColor:'blue'
+});
+
+// create table view
+var tableview = Titanium.UI.createTableView({
+	data : data,
+	style : Titanium.UI.iPhone.TableViewStyle.PLAIN,
+	updateTableView: function(data) {
+		var data = inflateListView(data);
+		// re-add data to table view to the window
+		tableview.setData(data);
+	},
+	refreshControl:control
+});
+
+control.addEventListener('refreshstart',function(e){
+    Ti.API.info('refreshstart');
+    setTimeout(function(){
+        Ti.API.debug('Timeout');
+        updateView();
+    }, 2000);
+});
+
+// create table view event listener
+tableview.addEventListener('click', function(e) {
+	// event data
+	var index = e.index;
+	//var section = e.section;
+	var row = e.row;
+	
+	// if (section.rowdata.indexOf('clicked') == -1) {
+		// section.rowdata = section.rowdata + ' (clicked)';
+	// }
+	 Titanium.UI.createAlertDialog({
+		title : 'Table View',
+		message : 'row ' + row + ' index ' + index 
+	}).show();
+});
+
+var buttonBet = Ti.UI.createButton({
+		height:44,
+		width:200,
+		title:L('Bet now'),
+		bottom:20
+});
+
+buttonBet.addEventListener('click', function() {
+		Titanium.UI.createAlertDialog({
+		title : L('sendingbetalert'),
+		message : 'success? ' 
+	}).show();
+				
+});	
+// add table view to the window
+self.add(tableview);
+self.add(buttonBet);
+
+return self;
+
+};
+	 
+
+function inflateListView(items) {	
 
 	// create empty array to add table data to
 	var data = [];
@@ -60,51 +145,9 @@ function BetsWindow(items) {
 		row.add(rowTitle);
 		row.add(nestedView);
 		data.push(row);
-
+		return data;
 }
-
-// create table view
-var tableview = Titanium.UI.createTableView({
-	data : data,
-	style : Titanium.UI.iPhone.TableViewStyle.PLAIN
-});
-
-// create table view event listener
-tableview.addEventListener('click', function(e) {
-	// event data
-	var index = e.index;
-	//var section = e.section;
-	var row = e.row;
-	
-	// if (section.rowdata.indexOf('clicked') == -1) {
-		// section.rowdata = section.rowdata + ' (clicked)';
-	// }
-	 Titanium.UI.createAlertDialog({
-		title : 'Table View',
-		message : 'row ' + row + ' index ' + index 
-	}).show();
-});
-
-var buttonBet = Ti.UI.createButton({
-		height:44,
-		width:200,
-		title:L('Bet now'),
-		bottom:20
-});
-
-buttonBet.addEventListener('click', function() {
-
-		Titanium.UI.createAlertDialog({
-		title : L('sendingbetalert'),
-		message : 'success? ' 
-	}).show();
-				
-});	
-// add table view to the window
-self.add(tableview);
-self.add(buttonBet);
-
-return self;
 };
 
 module.exports.BetsWindow = BetsWindow;
+module.exports.inflateListView = inflateListView;

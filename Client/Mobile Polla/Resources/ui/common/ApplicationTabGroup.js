@@ -6,29 +6,22 @@ function ApplicationTabGroup(Window) {
 	var self = Ti.UI.createTabGroup();
 
 	//create app tabs
-	var win1 = new Window(L('standings')),
-		myBetWindow = new Window(L('bet')),
-		win3 = new Window(L('money'));
-
 	
-    // pull data to display
-	 network.getGroups(function(response) {
-		 var BetWindow = require('/ui/handheld/BetsWindow');
-		 var groupData = [];
-		 for (var c = 0; c < response.length; c++) {
-			 var group = response[c];
-			 var betSize = group.games.length;
-			 if (betSize <= 0) { betSize = 6; };
-				 groupData.push([group.name, betSize]);
-		 };
-		// this.tab2.window = BetWindow.BetsWindow(groupData);		
-		 
-	 });
-	//var BetWindow = require('/ui/handheld/BetsWindow');
-	//myBetWindow = BetWindow.BetsWindow([['Group A', 5], ['Group B', 6], ['Group C', 7]]);	
+	var betsWindow = require('/ui/handheld/BetsWindow');
+    var myBetWindow = betsWindow.BetsWindow();
     
-    
-    
+    // pull data to display for betting
+	 // network.getGroups(function(response) {
+		 // var groupData = [];
+		 // for (var c = 0; c < response.length; c++) {
+			 // var group = response[c];
+			 // var betSize = group.games.length;
+			 // if (betSize <= 0) { betSize = 6; };
+				 // groupData.push([group.name, betSize]);
+		 // };
+		 // myBetWindow.updateWindow(groupData);		 
+	 // });
+	
     var standingWindow = require('/ui/handheld/StandingWindow');
     var myStandingWindow = standingWindow.StandingWindow();
 
@@ -46,6 +39,7 @@ function ApplicationTabGroup(Window) {
 	});
 	myBetWindow.containingTab = tab2;
 
+	var win3 = new Window(L('money'));
     var tab3 = Ti.UI.createTab({
 		title: L('money'),
 		icon: '/images/sports_betting_money.jpg',
