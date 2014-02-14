@@ -13,6 +13,7 @@ var secret = "xxxxxxxx";
 
 
 exports.dbname = dbname;
+exports.mongourl = mongourl;
 exports.teamsCollection = teamsCollection;
 exports.groupsCollection = groupsCollection;
 exports.gamesCollection = gamesCollection;
