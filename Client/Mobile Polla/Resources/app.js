@@ -42,6 +42,8 @@ if (Ti.version < 1.8) {
 
 	
   var isTablet = checkTablet();
+  require('Network/Network');
+  
   
   var Window;
   if (isTablet) {
