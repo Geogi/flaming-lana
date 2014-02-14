@@ -36,14 +36,6 @@ exports.import_rounds = function(request, response) {
 	return 0;
 }
 
-exports.import_games = function(request, response) {
-	for (var i = 1; < 21; i++) {
-		//import_game(i);
-	};
-	import_game(1);
-}
-
-
 import_game = function(i) {
 	var fileJSON = require('./gamesimulator/data/'+i);
 	console.log(fileJSON);
@@ -53,7 +45,7 @@ import_game = function(i) {
 	games.forEach(function(game) {
 
 	    server.mongoConnectAndAuthenticate(function (err, conn, db) {
-	        var collection = db.collection(config.gamecollection);
+	        var collection = db.collection(config.gamesCollection);
 	        collection.find({ 'team1_key': game.team1_key, 'play_at': game.play_at })
 	            .each(function (err, docs) {
 	                if (err) { 
@@ -79,6 +71,29 @@ import_game = function(i) {
                                     "response": {}
                                 });
                             } else {
+
+                            	var groupsCollection = db.collection(config.groupsCollection);
+                            	groupsCollection.find({ teams: game.team1_key })
+                            		.each(function (err, docs2) {
+		                        		if (err) { 
+						                    response.send({
+						                        "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
+						                        "response": {}
+						                    });
+						                } else if (!docs) {
+						                	var team1_key = docs2[0]._id;
+						                	
+
+						                } else {
+						                	alert("Error setting games in group"));
+		                        		}
+		                        	}
+                            	});
+
+
+
+
+
                                 queryById(docs[0]._id, response);
                             }
                         });  
@@ -95,9 +110,18 @@ import_game = function(i) {
 	});
 
 
+exports.import_games = function(request, response) {
+	for (var i = 1; < 21; i++) {
+		//import_game(i);
+	};
+	import_game(1);
+}
+
+
+
 insert_group = function(obj) {
     server.mongoConnectAndAuthenticate(function (err, conn, db) {
-        var collection = db.collection(config.gamecollection);
+        var collection = db.collection(config.groupsCollection);
         collection.find({ 'name': obj.name })
             .each(function (err, docs) {
                 if (err) { 
