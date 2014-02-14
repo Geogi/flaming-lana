@@ -12,25 +12,11 @@ function ApplicationTabGroup(Window) {
 	var self = Ti.UI.createTabGroup();
 
 	//create app tabs
-	
 	var betsWindow = require('/ui/handheld/BetsWindow');
     var myBetWindow = betsWindow.BetsWindow();
-    
-    // pull data to display for betting
-	 // network.getGroups(function(response) {
-		 // var groupData = [];
-		 // for (var c = 0; c < response.length; c++) {
-			 // var group = response[c];
-			 // var betSize = group.games.length;
-			 // if (betSize <= 0) { betSize = 6; };
-				 // groupData.push([group.name, betSize]);
-		 // };
-		 // myBetWindow.updateWindow(groupData);		 
-	 // });
-	
     var standingWindow = require('/ui/handheld/StandingWindow');
     var myStandingWindow = standingWindow.StandingWindow();
-
+   
 	var tab1 = Ti.UI.createTab({
 		title: L('standings'),
 		icon: '/images/list.png',
