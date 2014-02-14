@@ -40,24 +40,24 @@
                         "response": {}
                     });
                 } else if (!docs) {
-                	    var bet = {
-                            "user_id": user_id,
-                            "amount": amount,
-                            "bets": bets
-                        };
-                        collection.insert(bet, function (err, docs) {
-                            if (err) {
-                                response.send({
-                                    "meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
-                                    "response": {}
-                                });
-                            } else {
-                                response.send({
-                        			"meta": utils.createOKMeta(),
-                        			"response": docs
-                    			}); 
-                            }
-                        });  
+                	var bet = {
+                    	"user_id": user_id,
+                        "amount": amount,
+                        "bets": bets
+                    };
+                    collection.insert(bet, function (err, docs) {
+                    	if (err) {
+                        	response.send({
+                            	"meta": utils.createErrorMeta(500, "X_001", "Something went wrong with the MongoDB: " + err),
+                                "response": {}
+                            });
+                        } else {
+                            response.send({
+                        		"meta": utils.createOKMeta(),
+                        		"response": docs
+                    		}); 
+                        }
+                    });  
                 } else {
                     // increase resultAmount so on next iteration the algorithm knows the id was found.
                     resultAmount++;
