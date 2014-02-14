@@ -1,37 +1,13 @@
-//var network = require('Network');
 var network = require('Network/Network');
 
-function ApplicationWindow(title) {
+
+function BetsWindow() {
 	var self = Ti.UI.createWindow({
-		title:title,
+		title:"marrano",
 		backgroundColor:'white'
 	});
-
-	var button = Ti.UI.createButton({
-		height:44,
-		width:200,
-		title:L('openWindow'),
-		top:20
-	});
-	self.add(button);
-
-	button.addEventListener('click', function() {
-		//containingTab attribute must be set by parent tab group on
-		//the window for this work
 		
-		network.getTeams({name: "BOBY!!"});
-
-		var BetWindow = require('/ui/handheld/BetsWindow');
-    	var myBetWindow = BetWindow.BetsWindow();
-    
-		self.containingTab.open(myBetWindow);
-		
-		
-		
-	});
-	
-	
-	// create table view data object
+// create table view data object
 var data = [];
  
 for (var c=0;c<4;c++)
@@ -72,4 +48,4 @@ tableview.addEventListener('click', function(e)
 	return self;
 };
 
-module.exports = ApplicationWindow;
+module.exports.BetsWindow = BetsWindow;
