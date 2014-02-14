@@ -131,7 +131,7 @@ function inflateListView(items) {
 			max : 1,
 			value : 0,
 			style : Titanium.UI.iPhone.ProgressBarStyle.PLAIN,
-			message : 'bets on ' + games.length + ' matches',
+			message : 'bets on ' + games + ' matches',
 			font : {
 				fontSize : 12,
 				fontWeight : 'bold'
