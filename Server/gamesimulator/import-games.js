@@ -569,10 +569,11 @@ import_users = function(callback) {
 			var user = { 'username': 'Lode' };
 			collection.insert(user, function (err, nusers) {
 				if (err) { console.log("Error inserting user: "+user); };
-				//import_bets()
+				import_bet(nusers[0]._id, db);
 				user = { 'username': 'Christophe' };
 				collection.insert(user, function (err, ngames) {
 					if (err) { console.log("Error inserting user: "+user); };
+				import_bet(nusers[0]._id, db);
 					user = { 'username': 'Elisa' };
 					collection.insert(user, function (err, ngames) {
 						if (err) { console.log("Error inserting user: "+user); };
