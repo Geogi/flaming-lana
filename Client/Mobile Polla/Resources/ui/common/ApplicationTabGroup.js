@@ -6,7 +6,10 @@ function ApplicationTabGroup(Window) {
 	var win1 = new Window(L('standings')),
 		win2 = new Window(L('bets')),
 		win3 = new Window(L('money'));
-
+	
+    var BetWindow = require('/ui/handheld/BetsWindow');
+    var myBetWindow = BetWindow.BetsWindow();
+    
 	var tab1 = Ti.UI.createTab({
 		title: L('Standings'),
 		icon: '/images/list.png',
@@ -17,9 +20,9 @@ function ApplicationTabGroup(Window) {
 	var tab2 = Ti.UI.createTab({
 		title: L('Bets'),
 		icon: '/images/bet.jpg',
-		window: win2
+		window: myBetWindow
 	});
-	win2.containingTab = tab2;
+	myBetWindow.containingTab = tab2;
 
     var tab3 = Ti.UI.createTab({
 		title: L('Money'),
@@ -32,6 +35,7 @@ function ApplicationTabGroup(Window) {
 	self.addTab(tab2);
 	self.addTab(tab3);
 	return self;
+	
 };
 
 module.exports = ApplicationTabGroup;
