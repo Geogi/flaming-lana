@@ -11,7 +11,7 @@ function ApplicationWindow(title) {
 	var button = Ti.UI.createButton({
 		height:44,
 		width:200,
-		title:L('to match center'),
+		title:L('fonskes'),
 		top:20
 	});
 	self.add(button);
