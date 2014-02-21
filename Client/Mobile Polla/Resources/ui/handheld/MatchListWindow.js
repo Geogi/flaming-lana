@@ -1,4 +1,5 @@
 var network = require('Network/Network');
+var game_scores = [];
 
 function MatchesWindow(groupName) {
 	var self = Ti.UI.createWindow({
@@ -61,7 +62,7 @@ function inflateListView(items) {
 	for (var c = 0; c <items.length; c++) {
 		var game = items[c];
 		
-		data[c] = Ti.UI.createTableViewSection({
+		var sec = Ti.UI.createTableViewSection({
 			headerTitle : '  ',
 			height : 30
 		});
@@ -93,7 +94,7 @@ function inflateListView(items) {
 			top : 13,
 			left : 260
 		}));
-		data[c].add(row1);
+		sec.add(row1);
 		var row2 = Ti.UI.createTableViewRow({
 			className : 'row',
 			objName : 'row',
@@ -101,11 +102,6 @@ function inflateListView(items) {
 			height : 100
 		});
 
-		var picker = Titanium.UI.createPicker({
-			left : 10,
-			width : 40,
-			heigh : 50
-		});
 		var data2 = [];
 		var data3 = [];
 		data2.push(Titanium.UI.createPickerRow({
@@ -114,28 +110,38 @@ function inflateListView(items) {
 		data3.push(Titanium.UI.createPickerRow({
 			title : ' '
 		}));
-		for (var j = 1; j < 11; j++) {
-			data2.push(Titanium.UI.createPickerRow({
+		for (var j = 0; j < 11; j++) {
+			data2[j] = Titanium.UI.createPickerRow({
 				title : j.toString()
-			}));
-			data3.push(Titanium.UI.createPickerRow({
+			});
+			data3[j] = Titanium.UI.createPickerRow({
 				title : j.toString()
-			}));
+			});
 		}
 		var picker2 = Titanium.UI.createPicker({
 			left : 220,
 			width : 40,
 			heigh : 50
 		});
-
+		picker.selectionIndicator = true;
+		picker2.selectionIndicator = true;
 		picker.add(data2);
 		picker2.add(data3);
+		picker2.addEventListener('click', function(e) {
+			alert(e.row.title);
+		});
+		
+		picker.addEventListener('change', function(e) {
+			alert(e.row.title);
+		});
+
 		row2.add(picker);
 		row2.add(picker2);
-		data[c].add(row2);
+		sec.add(row2);
+		data.push(sec);
 	}
 
-	data[7] = Ti.UI.createTableViewSection({
+	var buttonSection = Ti.UI.createTableViewSection({
 		headerTitle : '  ',
 		height : 40
 	});
@@ -150,12 +156,13 @@ function inflateListView(items) {
 			right : 10,
 		});
 	rightButton.addEventListener('click', function(e) {
-			Ti.API.info('clicked button');
+			alert('clicked button');
 			
 	}); 
 	
 	buttonRow.add(rightButton);
-	data[7].add(buttonRow);
+	buttonSection(buttonRow);
+	data.push(buttonSection);
 	
 	return data;
 
