@@ -1,6 +1,6 @@
 var network = require('Network/Network');
 
-var game_scores[]; 
+var game_scores = []; 
 
 function MatchesWindow(games) {
 	var self = Ti.UI.createWindow({
@@ -48,57 +48,53 @@ function MatchesWindow(games) {
 		
 		var row2 = Ti.UI.createTableViewRow({
 			className : 'row',
-			objName : 'row1',
+			objName : 'row2',
 			touchEnabled : true,
-			height : 100
+			height : 40
 		});
 
-		var picker = Titanium.UI.createPicker({
-			//type : Titanium.UI.P 
-			left : 10,
-			width : 140,
-			heigh : 50
-		});
-		
-		var data2 = [];
-		var data3 = [];
-		data2.push(Titanium.UI.createPickerRow({
-			title : ' '
+		row2.add(Titanium.UI.createLabel({
+			text : '20',
+			left : 30,
+			top : 5
 		}));
-		data3.push(Titanium.UI.createPickerRow({
-			title : ' '
+		
+		var homeButtonUp = Titanium.UI.createButton({
+			title: '+',
+			left : 45,
+			top : -5
+		});
+		var homeButtonDown = Titanium.UI.createButton({
+			title: '-',
+			left : 45,
+			top : 6
+		});
+		row2.add(homeButtonUp);
+		row2.add(homeButtonDown);
+		
+		row2.add(Titanium.UI.createLabel({
+			text : '0',
+			left : 240,
+			top : 5
 		}));
-		for (var j = 0; j < 11; j++) {
-			data2[j] = Titanium.UI.createPickerRow({
-				title : j.toString()
-			});
-			data3[j] = Titanium.UI.createPickerRow({
-				title : j.toString()
-			});
-		}
-		var picker2 = Titanium.UI.createPicker({
-			left : 220,
-			width : 40,
-			heigh : 50
-		});
-		picker.selectionIndicator = true;
-		picker2.selectionIndicator = true;
-		picker.add(data2);
-		picker2.add(data3);
-		picker2.addEventListener('click', function(e) {
-			alert(e.row.title);
-		});
 		
-		picker.addEventListener('change', function(e) {
-			alert(e.row.title);
+		var awayButtonUp = Titanium.UI.createButton({
+			title: '+',
+			top : -5,
+			right : 20,
 		});
-		
-		
-		row2.add(picker);
-		row2.add(picker2);
+		var awayButtonDown = Titanium.UI.createButton({
+			title: '-',
+			bottom : 5,
+			right : 20,
+		});
+		row2.add(awayButtonUp);
+		row2.add(awayButtonDown);
 		sec.add(row2);
-		data.push(sec);
 	}
+					
+		data.push(sec);
+
 
 	var buttonSection = Ti.UI.createTableViewSection({
 		headerTitle : '  ',
