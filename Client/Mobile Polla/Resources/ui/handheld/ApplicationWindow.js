@@ -20,7 +20,7 @@ function ApplicationWindow(title) {
 		//containingTab attribute must be set by parent tab group on
 		//the window for this work
 
-		var MatchWindow = require('/ui/handheld/MatchListWindow');
+		var MatchWindow = require('/ui/handheld/MatchListWindow2');
     	var myMatchWindow = MatchWindow.MatchesWindow("non");
 		self.containingTab.open(myMatchWindow);
 		
